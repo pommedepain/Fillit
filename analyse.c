@@ -6,20 +6,19 @@
 /*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/30 13:31:21 by psentilh          #+#    #+#             */
-/*   Updated: 2018/12/04 16:57:53 by psentilh         ###   ########.fr       */
+/*   Updated: 2018/12/06 15:04:35 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
+#include <stdio.h>
 
 int		ft_is_next_line_valid(int fd, char ****tab)
 {
 	char	*line;
 
 	line = NULL;
-	// on rappelle gnl pour vérifier si la ligne d'après est bien un \n (remplacé par gnl par un \0)
 	get_next_line(fd, &line);
-	// si line est créée et qu'elle contien qqchose, on free tout le tab
 	if (line && line[0])
 	{
 		ft_tabdel(**tab);
@@ -28,41 +27,36 @@ int		ft_is_next_line_valid(int fd, char ****tab)
 	return (0);
 }
 
-int		ft_fd_into_tab(int fd, char ****tab)
+int		ft_fd_into_tab(int fd, char **tab)
 {
-	int		i;
-	int 	j;
+	int		verti;
+	int 	hori;
+	int		ret;
 
-	i = 0;
-	j = 0;
-	// on malloc au nbr max de tetriminos + 1 pour le 0
-	if (!(*tab = (char ***)malloc(sizeof(char **) * 27)))
+	verti = 0;
+	hori = 0;
+	if (!(tab = (char **)malloc(sizeof(char *) * 27)))
 		return (-1);
-	// on met à 0 la dernière case
-	(*tab)[26] = 0;
-	// tant qu'il y a des tetriminos
-	while ((*tab)[i])
+	//ft_bzero(*tab, 1);
+	tab[26] = 0;
+	while (tab[verti])
 	{
-		j = 0;
-		// on malloc 5 lignes par tetriminos (la dernière pour le 0)
-		if (!((*tab)[i] = (char **)malloc(sizeof(char *) * 5)))
+		hori = 0;
+		if (!(tab[verti] = (char *)malloc(sizeof(char) * 5)))
 		{
-			// si allocation échoue, on boucle pour free tout le tab
-			ft_tabdel(**tab);
+			ft_tabdel(tab);
 			return (-1);
 		}
-		// on met la dernière ligne à 0
-		(*tab)[i][4] = 0;
-		// tant qu'on a pas lu toutes les lignes du tetriminos actuel
-		while ((*tab)[i][j])
-			// on stock ligne par ligne dans le tab
-			get_next_line(fd, &(*tab)[i][j++]);
-		// on passe à la ligne suivante
-		i++;
+		//ft_bzero(**tab, 1);
+		tab[verti][4] = 0;
+		while (tab[verti][hori])
+			ret = get_next_line(fd, tab[verti][hori++]);
+		verti++;
 		ft_is_next_line_valid(fd, tab);
+		if (ret == 0)
+			break ;
 	}
-	// met un \0 après le dernier tetriminos (comme on ne peut pas savoir à l'avance combien il y en a)
-	(*tab)[i] = 0;
+	tab[verti] = 0;
 	return (1);
 }
 
@@ -71,7 +65,7 @@ int		main(int ac, char **av)
     int fd;
 	int i;
 	int j;
-	char ***tab;
+	char **tab;
 
 	tab = NULL;
 	(void)ac;
@@ -83,9 +77,10 @@ int		main(int ac, char **av)
 		return (-1);
     if (tab)
 	{
-		while (tab[i][j])
+		//while (tab[i][j])
+		while (tab)
 		{
-			ft_print_words_tables(tab[j++]);
+			ft_print_words_tables(&tab[j++]);
 			ft_putchar('\n');
 			i++;
 		}
