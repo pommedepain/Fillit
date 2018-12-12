@@ -6,7 +6,7 @@
 /*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 13:38:21 by psentilh          #+#    #+#             */
-/*   Updated: 2018/12/07 13:01:44 by psentilh         ###   ########.fr       */
+/*   Updated: 2018/12/11 14:15:09 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,27 @@
 # include <sys/stat.h>
 # include <fcntl.h>
 
+# define BUFF_SIZE 600
+
 typedef	struct		s_tetri
 {
-	int		index;
 	char	**piece;
 	char	alpha;
-	int		type;
+	int		index;
 	int		h;
 	int		w;
-}					t_tetri
+}					t_tetri;
+
+typedef struct		s_grid
+{
+	char	**tab;
+	int		size;
+}					t_grid;
+
+typedef struct		s_point
+{
+	int		x;
+	int		y;
+}					t_point;
 
 #endif

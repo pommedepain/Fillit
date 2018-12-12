@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   analyse.c                                          :+:      :+:    :+:   */
+/*   analyse.2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfauvell <cfauvell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 14:15:40 by cfauvell          #+#    #+#             */
-/*   Updated: 2018/12/12 16:54:49 by psentilh         ###   ########.fr       */
+/*   Updated: 2018/12/11 13:13:26 by cfauvell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,38 +23,31 @@ char	*read_all_file(int fd, char *buff, int *ret)
 	tmp2 = buff;
 	if (!(buff = ft_strjoin(buff, tmp)))
 		return (NULL);
-	if (buff[0] == '\n' || ft_strlen(buff) > 545) // pk 545 ?
+	if (buff[0] == '\n' || ft_strlen(buff) > 545)
 		return (NULL);
 	ft_strdel(&tmp2);
 	return(buff);
 }
 
 //Fonction qui permet de repartir le fichier en t_tetri *
-t_tetri	*sort_tetri(int fd, t_tetri *test, int i)
+int		sort_tetri(int fd, t_tetri *test, int i)
 {
 	static char *final;
 	char *tmp;
 	int ret;
-	int j;
 
-	i = 0;
 	ret = 0;
 	if (!final && !(final = ft_strnew(0)))
-			return (0);
+			return (-1);
 	if(!(final = read_all_file(fd, final, &ret)))
-		return (0);
+		return (-1);
 	if ((tmp = ft_strstr(final, "\n\n")) != NULL)
 		*tmp = '\0';
 	if(!(test[i].piece = ft_strsplit(final, '\n')))
-		return (NULL);
+		return (-1);
 	if (!(ft_memmove(final, tmp + 2, ft_strlen(tmp + 1) + 1)))
-		return (NULL);
-	while (test[j].piece)
-	{
-		ft_print_words_tables(test[j].piece);
-		j++;
-	}
-	return (test);
+		return (-1);
+	return (1);
 }
 
 /*Permet de tester le tetriminos(sans la reconnaissance des pieces pour 
@@ -94,28 +87,32 @@ int		main(void)
 	t_tetri	*test;
 	int fd;
 	int i;
+	int index;
 
-	i = 0;
+	i = 1;
+	index = 0;
 	fd = open ("test_4.fillit",  O_RDONLY);
-	if (!(test = (t_tetri*)malloc(sizeof(t_tetri))))
-		return (-1);
-	while (i < 4)
+	if (!(test = (t_tetri*)malloc(sizeof(t_tetri) * 26)))
+		return (0);
+	while (i)
 	{
-		if(!(test = sort_tetri(fd, test, i)))
+		if(!(i = sort_tetri(fd, test, index)))
 		{
 			ft_putstr("NEED VALID FILE 😉\n");
 			return (0);
 		}
-		if (!(check_tetri(test[0].piece)))
+		ft_putnbr(i);
+		ft_putstr("\n");
+		if (!(check_tetri(test[index].piece)))
 		{
 			ft_putstr("NEED VALID TETRIMINOS 🙌\n");
 			return (0);
 		}
-		ft_print_words_tables(test[i].piece);
+		ft_print_words_tables(test[index].piece);
+		index += 1;
+		test[index].index = index;
+		ft_putnbr(test[index].index);
 		ft_putstr("\n");
-		i++;
-		test[i].index = i;
-		ft_putnbr(test[0].index);
 	}
 	ft_putstr("\n");
 	close (fd);
