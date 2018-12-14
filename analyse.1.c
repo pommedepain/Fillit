@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   analyse.1.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfauvell <cfauvell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 14:15:40 by cfauvell          #+#    #+#             */
-/*   Updated: 2018/12/12 16:54:45 by psentilh         ###   ########.fr       */
+/*   Updated: 2018/12/12 17:26:05 by cfauvell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*read_all_file(int fd, char *buff, int *ret)
 }
 
 //Fonction qui permet de repartir le fichier en t_tetri *
-t_tetri	*sort_tetri(int fd, t_tetri *test)
+t_tetri	*sort_tetri(int fd, t_tetri *test, int i)
 {
 	static char *final;
 	char *tmp;
@@ -100,32 +100,30 @@ int		main(void)
 {
 	t_tetri	*test;
 	int fd;
-	//int i;
-	
-	//i = 0;
+	int i;
+
+	i = 0;
 	fd = open ("test_4.fillit",  O_RDONLY);
 	if (!(test = (t_tetri*)malloc(sizeof(t_tetri))))
 		return (0);
-	if (!(test = (t_tetri*)malloc(sizeof(t_tetri))))
-		return (0);
-	if(!(test = sort_tetri(fd, test)))
+	while (i < 4)
 	{
-		ft_putstr("NEED VALID FILE 😉\n");
-		return (0);
-	}
-	if (!(check_tetri(test->piece)))
-	{
-		ft_putstr("NEED VALID TETRIMINOS 🙌\n");
-		return (0);
-	}
-	test->index = 1;
-	/*while (test[i].piece != 0)
-	{
+		if(!(test = sort_tetri(fd, test, i)))
+		{
+			ft_putstr("NEED VALID FILE 😉\n");
+			return (0);
+		}
+		if (!(check_tetri(test[0].piece)))
+		{
+			ft_putstr("NEED VALID TETRIMINOS 🙌\n");
+			return (0);
+		}
 		ft_print_words_tables(test[i].piece);
+		ft_putstr("\n");
 		i++;
-	}*/
-	ft_print_words_tables(test->piece);
-	ft_putnbr(test->index);
+		test[i].index = i;
+		ft_putnbr(test[0].index);
+	}
 	ft_putstr("\n");
 	close (fd);
 }

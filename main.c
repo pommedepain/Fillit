@@ -6,7 +6,7 @@
 /*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 11:53:12 by psentilh          #+#    #+#             */
-/*   Updated: 2018/12/12 16:54:48 by psentilh         ###   ########.fr       */
+/*   Updated: 2018/12/14 18:44:14 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,34 +36,50 @@
 	return (0);
 }*/
 
-int		main(void)
+int		main(int ac, char **av)
 {
 	t_tetri	*test;
 	int fd;
 	int i;
+	int index;
 
 	i = 0;
-	fd = open ("test_4.fillit",  O_RDONLY);
-	if (!(test = (t_tetri*)malloc(sizeof(t_tetri))))
-		return (0);
-	while (i < 4)
+	index = 0;
+	fd = open (av[1],  O_RDONLY);
+	if (ac < 2)
 	{
-		if(!(test = sort_tetri(fd, test, i)))
+		ft_putstr("Are you braindamaged ? 🤦\nYou forgot the file dumbass ! 👏\n");
+		return (-1);
+	}
+	if (ac >= 3)
+	{
+		ft_putstr("One file at a time arsehole.\nNo chritmas present for you ! 🎅 🖕 🎁 💥\n");
+		return (-1);
+	}
+	if (!(test = (t_tetri*)malloc(sizeof(t_tetri) * 26)))
+		return (-1);
+	while (i < 5)
+	{
+		if(!(sort_tetri(fd, test, index)))
 		{
-			ft_putstr("NEED VALID FILE 😉\n");
-			return (0);
+			ft_putstr("You wanker... 😑\nYou couldn't even find a valid file ? 👊 💢\n");
+			return (-1);
 		}
-		if (!(check_tetri(test[0].piece)))
+		ft_putstr("\n");
+		if (!(check_tetri(test[index].piece)))
 		{
 			ft_putstr("NEED VALID TETRIMINOS 🙌\n");
-			return (0);
+			return (-1);
 		}
-		ft_print_words_tables(test[i].piece);
+		ft_print_words_tables(test[index].piece);
+		index += 1;
+		test->index = index;
+		ft_putnbr(test->index);
 		ft_putstr("\n");
 		i++;
-		test[i].index = i;
-		ft_putnbr(test[0].index);
 	}
+	solve_grid(test);
 	ft_putstr("\n");
 	close (fd);
+	return (0);
 }

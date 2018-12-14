@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   analyse.2.c                                        :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/07 14:15:40 by cfauvell          #+#    #+#             */
-/*   Updated: 2018/12/14 14:26:42 by psentilh         ###   ########.fr       */
+/*   Created: 2018/12/13 19:30:07 by psentilh          #+#    #+#             */
+/*   Updated: 2018/12/14 15:21:57 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,34 +93,51 @@ int		check_tetri(char **tab)
 	return (y == 4 && hash == 4 && count > 5);
 }
 
-
-
-//Fonction censée mettre tout dans le pointeur sur structure
-/*int		main(void)
+int		count_tetri(t_tetri *tetri)
 {
-	t_tetri	*test;
-	int		fd;
-	int		i;
-	int		index;
+	int i;
 
 	i = 0;
+	i = tetri->index;
+	return (i);
+}
+
+int		main(int ac, char **av)
+{
+	t_tetri	*test;
+	int fd;
+	int i;
+	int index;
+	int ret;
+
+	ret = 0;
+	i = 0;
 	index = 0;
-	fd = open("test_4.fillit",  O_RDONLY);
+	fd = open (av[1],  O_RDONLY);
+	if (ac < 2)
+	{
+		ft_putstr("Are you braindamaged ? 🤦\nYou forgot the file dumbass ! 👏\n");
+		return (-1);
+	}
+	if (ac >= 3)
+	{
+		ft_putstr("One file at a time arsehole.\nNo chritmas present for you ! 🎅 🖕 🎁 💥\n");
+		return (-1);
+	}
 	if (!(test = (t_tetri*)malloc(sizeof(t_tetri) * 26)))
-		return (0);
+		return (-1);
 	while (i < 4)
 	{
-		if (!(sort_tetri(fd, test, index)))
+		if(!(sort_tetri(fd, test, index)))
 		{
-			ft_putstr("NEED VALID FILE 😉\n");
-			return (0);
+			ft_putstr("You wanker... 😑\nYou couldn't even find a valid file ? 👊 💢\n");
+			return (-1);
 		}
-		//ft_putnbr(i);
 		ft_putstr("\n");
 		if (!(check_tetri(test[index].piece)))
 		{
 			ft_putstr("NEED VALID TETRIMINOS 🙌\n");
-			return (0);
+			return (-1);
 		}
 		ft_print_words_tables(test[index].piece);
 		index += 1;
@@ -130,10 +147,8 @@ int		check_tetri(char **tab)
 		i++;
 	}
 	ft_putstr("\n");
+	ret = count_tetri(test);
+	ft_putnbr(ret);
 	close (fd);
-}*/
-
-/*Reste a faire:
-- Mettre les tab dans le tableau de structure
-- Definir leur longeur/largeur
-- Il faut que quand un tetriminos n'est pas bon tout le process s'arrete*/
+	return (0);
+}
