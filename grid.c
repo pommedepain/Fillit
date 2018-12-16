@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   grid.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/11 13:11:00 by psentilh          #+#    #+#             */
-/*   Updated: 2018/12/14 18:51:11 by psentilh         ###   ########.fr       */
+/*   Updated: 2018/12/16 21:44:16 by pommedepin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	free_grid(t_grid *grid)
 		ft_memdel((void **)&(grid->tab[i]));
 		i++;
 	}
+	ft_memdel((void **)&(grid->tab));
 	ft_memdel((void **)&grid);
 }
 
@@ -42,26 +43,24 @@ void	print_grid(t_grid *grid)
 t_grid	*init_grid(int size) // peut-etre a simplifier avec memset
 {
 	t_grid	*grid; 
-	int		h;
-	int		w;
 	int		i;
+	int		j;
 
 	i = 0;
-	h = 0;
 	grid = (t_grid *)ft_memalloc(sizeof(t_grid));
 	grid->size = size;
 	printf("size de init = %d\n", size);
 	grid->tab = (char **)ft_memalloc(sizeof(char *) * size);
-	while (h < size)
+	while (i < size)
 	{
-		grid->tab[h] = ft_strnew(size);
-		w = 0;
-		while (w < size)
+		grid->tab[i] = ft_strnew(size);
+		j = 0;
+		while (j < size)
 		{
-			grid->tab[h][w] = '.';
-			w++;
+			grid->tab[i][j] = '.';
+			j++;
 		}
-		h++;
+		i++;
 	}
 	ft_print_words_tables(grid->tab);
 	return (grid);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   backtracking.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 14:20:29 by psentilh          #+#    #+#             */
-/*   Updated: 2018/12/14 18:52:30 by psentilh         ###   ########.fr       */
+/*   Updated: 2018/12/16 21:56:59 by pommedepin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,20 @@ t_point	*new_point(int x, int y)
 
 int		choose_place_grid(t_tetri *tetri, t_grid *grid, int x, int y, int index)
 {
-	int h;
-	int w;
+	int i;
+	int j;
 
-	h = 0;
-	while (h < tetri[index].h)
+	i = 0;
+	while (i < tetri[index].w)
 	{
-		w = 0;
-		while (w < tetri[index].w)
+		j = 0;
+		while (j < tetri[index].h)
 		{
-			if (tetri[index].piece[h][w] == '#' && grid->tab[x + h][y + w] != '.')
+			if (tetri[index].piece[j][i] == '#' && grid->tab[y + j][x + i] != '.')
 				return (0);
-			w++;
+			j++;
 		}
-		h++;
+		i++;
 	}
 	place_piece(tetri, grid, new_point(x, y), tetri->alpha, index);
 	return (1);
@@ -46,20 +46,20 @@ int		choose_place_grid(t_tetri *tetri, t_grid *grid, int x, int y, int index)
 
 void	place_piece(t_tetri *tetri, t_grid *grid, t_point *point, char c, int index)
 {
-	int h;
-	int w;
+	int i;
+	int j;
 
-	h = 0;
-	while (h < tetri[index].h)
+	i = 0;
+	while (i < tetri[index].w)
 	{
-		w = 0;
-		while (w < tetri[index].w)
+		j = 0;
+		while (j < tetri[index].h)
 		{
-			if (tetri[index].piece[h][w] == '#')
-				grid->tab[point->y + w][point->x + h] = c;
-			w++;
+			if (tetri[index].piece[j][i] == '#')
+				grid->tab[point->y + j][point->x + i] = c;
+			j++;
 		}
-		h++;
+		i++;
 	}
 	ft_memdel((void **)&point);
 }
@@ -90,14 +90,12 @@ int		backtracking(t_tetri *tetri, t_grid *grid, int index)
 	return (0);
 }
 
-t_grid	*solve_grid(t_tetri *tetri)
+t_grid	*solve_grid(t_tetri *tetri, t_grid *grid)
 {
-	t_grid	*grid;
+	//t_grid	*grid;
 	int		size;
 	int		index;
-	int		ret;
 
-	ret = 0;
 	index = tetri->index;
 	printf("index = %d\n", index);
 	size = right_grid(index * 4); // = right_grid(6 * 4) = 24 puis == 5
@@ -106,9 +104,9 @@ t_grid	*solve_grid(t_tetri *tetri)
 	{
 		//printf("ici");
 		size++;
-		index--;
 		free_grid(grid);
 		grid = init_grid(size);
+		index--;
 	}
 	return (grid);
 }

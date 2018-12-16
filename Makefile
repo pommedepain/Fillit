@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+         #
+#    By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/28 13:07:43 by psentilh          #+#    #+#              #
-#    Updated: 2018/11/28 13:37:51 by psentilh         ###   ########.fr        #
+#    Updated: 2018/12/16 22:36:01 by pommedepin       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,10 @@ CC = gcc
 
 FLAGS = -Wall -Werror -Wextra
 
-SRCS = 
+SRCS =	main.c\
+		analyse.2.c\
+		backtracking.c\
+		grid.c\
 
 DIR_OBJS = objs/
 

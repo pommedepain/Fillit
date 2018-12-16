@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fillit.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 13:38:21 by psentilh          #+#    #+#             */
-/*   Updated: 2018/12/14 15:31:20 by psentilh         ###   ########.fr       */
+/*   Updated: 2018/12/16 21:58:12 by pommedepin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	free_grid(t_grid *grid);
 /*
 ** Resolution :
 */
-t_grid	*solve_grid(t_tetri *tetri);
+t_grid	*solve_grid(t_tetri *tetri, t_grid *grid);
 int		backtracking(t_tetri *tetri, t_grid *grid, int index);
 void	place_piece(t_tetri *tetri, t_grid *grid, t_point *point, char c, int index);
 int		choose_place_grid(t_tetri *tetri, t_grid *grid, int x, int y, int index);

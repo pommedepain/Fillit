@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 11:53:12 by psentilh          #+#    #+#             */
-/*   Updated: 2018/12/14 18:44:14 by psentilh         ###   ########.fr       */
+/*   Updated: 2018/12/16 21:59:00 by pommedepin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@
 int		main(int ac, char **av)
 {
 	t_tetri	*test;
+	t_grid	*grid;
 	int fd;
 	int i;
 	int index;
 
 	i = 0;
 	index = 0;
-	fd = open (av[1],  O_RDONLY);
 	if (ac < 2)
 	{
 		ft_putstr("Are you braindamaged ? 🤦\nYou forgot the file dumbass ! 👏\n");
@@ -54,6 +54,11 @@ int		main(int ac, char **av)
 	if (ac >= 3)
 	{
 		ft_putstr("One file at a time arsehole.\nNo chritmas present for you ! 🎅 🖕 🎁 💥\n");
+		return (-1);
+	}
+	if ((fd = open (av[1],  O_RDONLY) == 0))
+	{
+		ft_putstr("The input file is empty. Please try again with a valid one !");
 		return (-1);
 	}
 	if (!(test = (t_tetri*)malloc(sizeof(t_tetri) * 26)))
@@ -78,7 +83,9 @@ int		main(int ac, char **av)
 		ft_putstr("\n");
 		i++;
 	}
-	solve_grid(test);
+	grid = solve_grid(test, grid);
+	//print_grid(grid);
+	free_grid(grid);
 	ft_putstr("\n");
 	close (fd);
 	return (0);
