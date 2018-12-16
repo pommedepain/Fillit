@@ -6,7 +6,7 @@
 /*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 14:20:29 by psentilh          #+#    #+#             */
-/*   Updated: 2018/12/16 21:56:59 by pommedepin       ###   ########.fr       */
+/*   Updated: 2018/12/16 22:43:08 by pommedepin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,9 @@ int		backtracking(t_tetri *tetri, t_grid *grid, int index)
 	return (0);
 }
 
-t_grid	*solve_grid(t_tetri *tetri, t_grid *grid)
+t_grid	*solve_grid(t_tetri *tetri/*, t_grid *grid*/)
 {
-	//t_grid	*grid;
+	t_grid	*grid;
 	int		size;
 	int		index;
 

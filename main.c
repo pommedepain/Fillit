@@ -6,7 +6,7 @@
 /*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 11:53:12 by psentilh          #+#    #+#             */
-/*   Updated: 2018/12/16 21:59:00 by pommedepin       ###   ########.fr       */
+/*   Updated: 2018/12/16 22:47:30 by pommedepin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,8 @@ int		main(int ac, char **av)
 		ft_putstr("\n");
 		i++;
 	}
-	grid = solve_grid(test, grid);
-	//print_grid(grid);
+	grid = solve_grid(test/*, grid*/);
+	print_grid(grid);
 	free_grid(grid);
 	ft_putstr("\n");
 	close (fd);

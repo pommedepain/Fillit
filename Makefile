@@ -6,7 +6,7 @@
 #    By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/28 13:07:43 by psentilh          #+#    #+#              #
-#    Updated: 2018/12/16 22:36:01 by pommedepin       ###   ########.fr        #
+#    Updated: 2018/12/16 22:46:13 by pommedepin       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ clean:
 	@echo "Cleaning $(DIR_OBJS)..."
 
 fclean: clean
-	@bin/mr -rf $(NAME)
+	@bin/rm -rf $(NAME)
 	@echo "Cleaning $(NAME)..."
 
 re: fclean all
