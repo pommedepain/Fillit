@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   analyse.3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/13 19:30:07 by psentilh          #+#    #+#             */
-/*   Updated: 2018/12/14 15:21:57 by psentilh         ###   ########.fr       */
+/*   Created: 2018/12/07 14:15:40 by cfauvell          #+#    #+#             */
+/*   Updated: 2018/12/17 16:03:55 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,31 +24,22 @@ char	*read_all_file(int fd, char *buff, int *ret)
 	tmp2 = buff;
 	if (!(buff = ft_strjoin(buff, tmp)))
 		return (NULL);
-	if (buff[0] == '\n' || ft_strlen(buff) > 545)
+	if (buff[0] == '\n' || ft_strlen(buff) > 545 || (ft_strlen(buff) + 1) % 21 != 0)
 		return (NULL);
 	ft_strdel(&tmp2);
 	return (buff);
 }
 
 //Fonction qui permet de repartir le fichier en t_tetri *
-int		sort_tetri(int fd, t_tetri *test, int i)
+int		sort_tetri(char *str, t_tetri *test, int i)
 {
-	static char	*final;
 	char		*tmp;
-	int			ret;
 
-	ret = 0;
-	if (!final && !(final = ft_strnew(0)))
-		return (-1);
-	if (!(final = read_all_file(fd, final, &ret)))
-		return (-1);
-	if ((tmp = ft_strstr(final, "\n\n")) != NULL)
+	if ((tmp = ft_strstr(str, "\n\n")) != NULL)
 		*tmp = '\0';
-	if (!(test[i].piece = ft_strsplit(final, '\n')))
+	if (!(test[i].piece = ft_strsplit(str, '\n')))
 		return (-1);
-	if ((ft_strlen(final) == 21))
-		return (0);
-	if (!(ft_memmove(final, tmp + 2, ft_strlen(tmp + 2))))
+	ft_memmove(str, tmp + 2, ft_strlen(tmp + 2));
 		return (-1);
 	return (1);
 }
@@ -93,27 +84,19 @@ int		check_tetri(char **tab)
 	return (y == 4 && hash == 4 && count > 5);
 }
 
-int		count_tetri(t_tetri *tetri)
-{
-	int i;
-
-	i = 0;
-	i = tetri->index;
-	return (i);
-}
-
+//Fonction censée mettre tout dans le pointeur sur structure
 int		main(int ac, char **av)
 {
-	t_tetri	*test;
-	int fd;
-	int i;
-	int index;
-	int ret;
+	t_tetri		*test;
+	t_grid		*grid;
+	static char *final;
+	int			fd;
+	int			index;
+	int			ret;
+	int			len;
 
-	ret = 0;
-	i = 0;
 	index = 0;
-	fd = open (av[1],  O_RDONLY);
+	ret = 0;
 	if (ac < 2)
 	{
 		ft_putstr("Are you braindamaged ? 🤦\nYou forgot the file dumbass ! 👏\n");
@@ -124,31 +107,31 @@ int		main(int ac, char **av)
 		ft_putstr("One file at a time arsehole.\nNo chritmas present for you ! 🎅 🖕 🎁 💥\n");
 		return (-1);
 	}
-	if (!(test = (t_tetri*)malloc(sizeof(t_tetri) * 26)))
+	fd = open(av[1],  O_RDONLY);
+	if (!(final = ft_strnew(0)))
 		return (-1);
-	while (i < 4)
+	if (!(final = read_all_file(fd, final, &ret)))
+		return (-1);
+	len = (ft_strlen(final) + 1) / 21;
+	if (!(test = (t_tetri*)malloc(sizeof(t_tetri) * len)))
+		return (-1);
+	while (len)
 	{
-		if(!(sort_tetri(fd, test, index)))
-		{
-			ft_putstr("You wanker... 😑\nYou couldn't even find a valid file ? 👊 💢\n");
-			return (-1);
-		}
-		ft_putstr("\n");
+		if(!(sort_tetri(final, test, index)))
+			return(-1);
 		if (!(check_tetri(test[index].piece)))
-		{
-			ft_putstr("NEED VALID TETRIMINOS 🙌\n");
-			return (-1);
-		}
+			return(-1);
 		ft_print_words_tables(test[index].piece);
-		index += 1;
+		index++;
 		test->index = index;
 		ft_putnbr(test->index);
 		ft_putstr("\n");
-		i++;
+		len --;
 	}
+	grid = solve_grid(test/*, grid*/);
+	print_grid(grid);
+	free_grid(grid);
 	ft_putstr("\n");
-	ret = count_tetri(test);
-	ft_putnbr(ret);
 	close (fd);
-	return (0);
+	return (1);
 }

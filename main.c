@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 11:53:12 by psentilh          #+#    #+#             */
-/*   Updated: 2018/12/16 22:47:30 by pommedepin       ###   ########.fr       */
+/*   Updated: 2018/12/17 14:24:03 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
+#include <stdio.h>
 
 /*int		main(int ac, char **av)
 {
@@ -38,13 +39,15 @@
 
 int		main(int ac, char **av)
 {
-	t_tetri	*test;
-	t_grid	*grid;
-	int fd;
-	int i;
-	int index;
+	t_tetri		*test;
+	t_grid		*grid;
+	static char *final;
+	int			fd;
+	int			ret;
+	int			index;
+	int			len;
 
-	i = 0;
+	ret = 0;
 	index = 0;
 	if (ac < 2)
 	{
@@ -56,16 +59,24 @@ int		main(int ac, char **av)
 		ft_putstr("One file at a time arsehole.\nNo chritmas present for you ! 🎅 🖕 🎁 💥\n");
 		return (-1);
 	}
-	if ((fd = open (av[1],  O_RDONLY) == 0))
+	if ((fd = open (av[1], O_RDONLY) == 0))
 	{
 		ft_putstr("The input file is empty. Please try again with a valid one !");
 		return (-1);
 	}
-	if (!(test = (t_tetri*)malloc(sizeof(t_tetri) * 26)))
+	if (!(final = ft_strnew(0)))
 		return (-1);
-	while (i < 5)
+	printf("ici 1\n");	
+	if (!(final = read_all_file(fd, final, &ret)))
+		return (-1);
+	printf("ici 2\n");
+	len = (ft_strlen(final) + 1) / 21;
+	if (!(test = (t_tetri*)malloc(sizeof(t_tetri) * len)))
+		return (-1);
+	printf("ici 3\n");
+	while (len)
 	{
-		if(!(sort_tetri(fd, test, index)))
+		if(!(sort_tetri(final, test, index)))
 		{
 			ft_putstr("You wanker... 😑\nYou couldn't even find a valid file ? 👊 💢\n");
 			return (-1);
@@ -81,8 +92,9 @@ int		main(int ac, char **av)
 		test->index = index;
 		ft_putnbr(test->index);
 		ft_putstr("\n");
-		i++;
+		len--;
 	}
+	printf("index = %d\n", index);
 	grid = solve_grid(test/*, grid*/);
 	print_grid(grid);
 	free_grid(grid);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   backtracking.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 14:20:29 by psentilh          #+#    #+#             */
-/*   Updated: 2018/12/16 22:43:08 by pommedepin       ###   ########.fr       */
+/*   Updated: 2018/12/17 14:41:50 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,18 @@ t_point	*new_point(int x, int y)
 {
 	t_point *point;
 
-	point = ft_memalloc(sizeof(t_point));
+	point = (t_point *)ft_memalloc(sizeof(t_point));
 	point->x = x;
 	point->y = y;
 	return (point);
+}
+
+t_tetri	*tetri_init(t_tetri *tetri, int h, int w)
+{
+	tetri = (t_tetri *)malloc(sizeof(t_tetri));
+	tetri->h = h;
+	tetri->w = w;
+	return (tetri);
 }
 
 int		choose_place_grid(t_tetri *tetri, t_grid *grid, int x, int y, int index)
@@ -97,7 +105,7 @@ t_grid	*solve_grid(t_tetri *tetri/*, t_grid *grid*/)
 	int		index;
 
 	index = tetri->index;
-	printf("index = %d\n", index);
+	//printf("index = %d\n", index);
 	size = right_grid(index * 4); // = right_grid(6 * 4) = 24 puis == 5
 	grid = init_grid(size);
 	while(!backtracking(tetri, grid, index))
