@@ -6,7 +6,7 @@
 /*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 14:20:29 by psentilh          #+#    #+#             */
-/*   Updated: 2018/12/17 14:41:50 by psentilh         ###   ########.fr       */
+/*   Updated: 2018/12/18 18:45:01 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,45 @@ t_tetri	*tetri_init(t_tetri *tetri, int h, int w)
 	tetri = (t_tetri *)malloc(sizeof(t_tetri));
 	tetri->h = h;
 	tetri->w = w;
+	return (tetri);
+}
+
+void	min_max(t_tetri *tetri, t_point *min, t_point *max)
+{
+	int index;
+	int i;
+
+	i = 0;
+	index = tetri->index;
+	while (i < 20)
+	{
+		if (tetri[index].piece == '#')
+		{
+			if (i / 5 < min->y)
+				min->y = i / 5;
+			if (i / 5 > max->y)
+				max->y = i / 5;
+			if (i % 5 < min->x)
+				min->x = i % 5;
+			if (i % 5 > max->x)
+				max->x = i % 5;
+		}
+		i++;
+	}
+}
+
+t_tetri	*tetri_h_w(t_tetri *tetri)
+{
+	t_point *min;
+	t_point *max;
+
+	min = new_point(3, 3);
+	max = new_point(0, 0);
+	min_max(tetri->piece, min, max);
+	tetri->h = max->x - min->x + 1;
+	tetri->w = max->y - min->y + 1;
+	ft_memdel(&min);
+	ft_memdel(&max);
 	return (tetri);
 }
 

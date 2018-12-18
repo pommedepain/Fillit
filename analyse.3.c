@@ -6,7 +6,7 @@
 /*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 14:15:40 by cfauvell          #+#    #+#             */
-/*   Updated: 2018/12/17 16:03:55 by psentilh         ###   ########.fr       */
+/*   Updated: 2018/12/18 18:53:43 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int		main(int ac, char **av)
 	{
 		if(!(sort_tetri(final, test, index)))
 			return(-1);
-		if (!(check_tetri(test[index].piece)))
+		if (!(check_tetri(test[index].piece)) || (test = tetri_h_w(test)))
 			return(-1);
 		ft_print_words_tables(test[index].piece);
 		index++;

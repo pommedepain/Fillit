@@ -6,7 +6,7 @@
 /*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/11 13:11:00 by psentilh          #+#    #+#             */
-/*   Updated: 2018/12/17 13:00:41 by psentilh         ###   ########.fr       */
+/*   Updated: 2018/12/18 18:45:39 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ t_grid	*init_grid(int size) // peut-etre a simplifier avec memset
 	i = 0;
 	grid = (t_grid *)ft_memalloc(sizeof(t_grid));
 	grid->size = size;
-	//printf("size de init = %d\n", size);
 	grid->tab = (char **)ft_memalloc(sizeof(char *) * size);
 	while (i < size)
 	{
@@ -65,25 +64,6 @@ t_grid	*init_grid(int size) // peut-etre a simplifier avec memset
 	//ft_print_words_tables(grid->tab);
 	return (grid);
 }
-
-/*int		count_tetri(t_tetri *tetri)
-{
-	int i;
-
-	i = 0;
-	i = tetri->index;
-	return (i);
-}*/
-	
-/*int		right_grid(int nb)
-{
-	int size;
-
-	size = 2;
-	while (size * size < nb)
-		size++;
-	return (size);
-}*/
 
 int			right_grid(int nb)
 {
