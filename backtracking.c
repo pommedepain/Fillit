@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   backtracking.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 14:20:29 by psentilh          #+#    #+#             */
-/*   Updated: 2018/12/18 18:45:01 by psentilh         ###   ########.fr       */
+/*   Updated: 2018/12/19 22:07:34 by pommedepin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	min_max(t_tetri *tetri, t_point *min, t_point *max)
 	index = tetri->index;
 	while (i < 20)
 	{
-		if (tetri[index].piece == '#')
+		if ((int)tetri[index].piece == '#')
 		{
 			if (i / 5 < min->y)
 				min->y = i / 5;
@@ -62,11 +62,11 @@ t_tetri	*tetri_h_w(t_tetri *tetri)
 
 	min = new_point(3, 3);
 	max = new_point(0, 0);
-	min_max(tetri->piece, min, max);
+	min_max((t_tetri *)tetri->piece, min, max);
 	tetri->h = max->x - min->x + 1;
 	tetri->w = max->y - min->y + 1;
-	ft_memdel(&min);
-	ft_memdel(&max);
+	ft_memdel((void **)&min);
+	ft_memdel((void **)&max);
 	return (tetri);
 }
 
@@ -137,7 +137,7 @@ int		backtracking(t_tetri *tetri, t_grid *grid, int index)
 	return (0);
 }
 
-t_grid	*solve_grid(t_tetri *tetri/*, t_grid *grid*/)
+t_grid	*solve_grid(t_tetri *tetri)
 {
 	t_grid	*grid;
 	int		size;
@@ -149,7 +149,6 @@ t_grid	*solve_grid(t_tetri *tetri/*, t_grid *grid*/)
 	grid = init_grid(size);
 	while(!backtracking(tetri, grid, index))
 	{
-		//printf("ici");
 		size++;
 		free_grid(grid);
 		grid = init_grid(size);
