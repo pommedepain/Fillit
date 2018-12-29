@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_all.c                                         :+:      :+:    :+:   */
+/*   free_tetri.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/20 12:52:24 by cfauvell          #+#    #+#             */
-/*   Updated: 2018/12/21 21:10:44 by psentilh         ###   ########.fr       */
+/*   Updated: 2018/12/27 16:05:30 by pommedepin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,30 @@
 	free(test);
 }*/
 
-void	free_tetri(t_tetri *tetri, int index)
+t_tetri	*free_tetri(t_tetri *tetri, int index)
 {
-	int i;
+	/*int i;
 
 	i = 0;
-	while (i < index)
+	while (i < index || i <= 4)
 	{
 		ft_memdel((void **)&(tetri[index].piece[i]));
+		ft_memdel((void **)&(tetri[index].alpha));
+		ft_memdel((void **)&(tetri[index].index));
+		ft_memdel((void **)&(tetri[index].h));
+		ft_memdel((void **)&(tetri[index].w));
 		i++;
 	}
 	ft_memdel((void **)&(tetri[index].piece));
 	ft_memdel((void **)&tetri);
+	return (tetri);*/
+	int i = 26;
+	while (i != 0)
+	{
+		ft_memdel((void **)&tetri);
+		i--;
+	}
+	ft_memdel((void **)&tetri);
+	//tetri = NULL;
+	return (tetri);
 }

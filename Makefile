@@ -6,7 +6,7 @@
 #    By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/28 13:07:43 by psentilh          #+#    #+#              #
-#    Updated: 2018/12/16 22:46:13 by pommedepin       ###   ########.fr        #
+#    Updated: 2018/12/27 16:09:03 by pommedepin       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,9 +19,10 @@ CC = gcc
 FLAGS = -Wall -Werror -Wextra
 
 SRCS =	main.c\
-		analyse.2.c\
+		analyse.c\
 		backtracking.c\
 		grid.c\
+		free_tetri.c\
 
 DIR_OBJS = objs/
 

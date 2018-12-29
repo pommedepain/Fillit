@@ -6,7 +6,7 @@
 /*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 14:20:29 by psentilh          #+#    #+#             */
-/*   Updated: 2018/12/19 22:07:34 by pommedepin       ###   ########.fr       */
+/*   Updated: 2018/12/29 14:00:15 by pommedepin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,15 @@ t_point	*new_point(int x, int y)
 	return (point);
 }
 
-t_tetri	*tetri_init(t_tetri *tetri, int h, int w)
+/*t_tetri	*tetri_init(t_tetri *tetri, int h, int w)
 {
 	tetri = (t_tetri *)malloc(sizeof(t_tetri));
 	tetri->h = h;
 	tetri->w = w;
 	return (tetri);
-}
+}*/
 
-void	min_max(t_tetri *tetri, t_point *min, t_point *max)
+/*void	min_max(t_tetri *tetri, t_point *min, t_point *max)
 {
 	int index;
 	int i;
@@ -40,7 +40,7 @@ void	min_max(t_tetri *tetri, t_point *min, t_point *max)
 	index = tetri->index;
 	while (i < 20)
 	{
-		if ((int)tetri[index].piece == '#')
+		if ((int)tetri[index].piece == '#')//crée potentiellement pb de segv à cause du cast
 		{
 			if (i / 5 < min->y)
 				min->y = i / 5;
@@ -53,9 +53,9 @@ void	min_max(t_tetri *tetri, t_point *min, t_point *max)
 		}
 		i++;
 	}
-}
+}*/
 
-t_tetri	*tetri_h_w(t_tetri *tetri)
+/*t_tetri	*tetri_h_w(t_tetri *tetri)
 {
 	t_point *min;
 	t_point *max;
@@ -68,7 +68,7 @@ t_tetri	*tetri_h_w(t_tetri *tetri)
 	ft_memdel((void **)&min);
 	ft_memdel((void **)&max);
 	return (tetri);
-}
+}*/
 
 int		choose_place_grid(t_tetri *tetri, t_grid *grid, int x, int y, int index)
 {
@@ -144,7 +144,7 @@ t_grid	*solve_grid(t_tetri *tetri)
 	int		index;
 
 	index = tetri->index;
-	//printf("index = %d\n", index);
+	printf("index = %d\n", index);
 	size = right_grid(index * 4); // = right_grid(6 * 4) = 24 puis == 5
 	grid = init_grid(size);
 	while(!backtracking(tetri, grid, index))
