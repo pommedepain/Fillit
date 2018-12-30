@@ -6,23 +6,20 @@
 /*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 21:00:54 by psentilh          #+#    #+#             */
-/*   Updated: 2018/12/29 21:34:44 by pommedepin       ###   ########.fr       */
+/*   Updated: 2018/12/30 17:19:50 by pommedepin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 #include <stdio.h>
 
-t_tetri	*new_tetri(t_tetri *tetri, char **pos, int w, int h, char alpha, int index)
+t_tetri	*new_tetri(t_tetri *tetri, char **pos, int w, int h, char alpha)
 {
-	tetri[index].piece = pos;
-	printf("newtetri index = %d\n", index);
-	tetri[index].w = w;
-	tetri[index].h = h;
-	tetri[index].alpha = alpha;
-	printf("newtetri alpha = %c\n", tetri->alpha);
-	tetri[index].index = index + 1;
-	return (tetri/*[index]*/);
+	tetri->piece = pos;
+	tetri->w = w;
+	tetri->h = h;
+	tetri->alpha = alpha;
+	return (tetri);
 }
 
 void	min_max(char *str, t_point *min, t_point *max)
@@ -47,7 +44,7 @@ void	min_max(char *str, t_point *min, t_point *max)
 	}
 }
 
-t_tetri	*get_piece(t_tetri *tetri, char *buff, char alpha, int index)
+t_tetri	*get_piece(t_tetri *tetri, char *buff, char alpha)
 {
 	t_point *min;
 	t_point *max;
@@ -65,10 +62,11 @@ t_tetri	*get_piece(t_tetri *tetri, char *buff, char alpha, int index)
 		ft_strncpy(pos[i], buff + (min->x) + (i + min->y) * 5, max->x - min->x + 1);
 		i++;
 	}
-	tetri = new_tetri(tetri, pos, max->x - min->x + 1, max->y - min->y + 1, alpha, index);
+	//tetri->piece = ft_memalloc(sizeof(char *) * (max->y - min->y + 1));
+	tetri = new_tetri(tetri, pos, max->x - min->x + 1, max->y - min->y + 1, alpha);
 	ft_memdel((void **)&min);
 	ft_memdel((void **)&max);
-	return (tetri/*[index]*/);
+	return (tetri);
 }
 
 int		check_connection(char *str)
@@ -105,75 +103,44 @@ int		check_counts(char *str, int count)
 	i = 0;
 	while (i < 20)
 	{
-		//printf("ici 2\n");
 		if (i % 5 < 4)
 		{
-			//printf("ici 3\n");
 			if (!(str[i] == '#' || str[i] == '.'))
-			{
-				//printf("return 1\n");
 				return (1);
-			}
 			if (str[i] == '#' && ++blocs > 4)
-			{
-				//printf("return 2\n");
 				return (2);
-			}
 		}
 		else if (str[i] != '\n')
-		{
-			//printf("return 3\n");
 			return (3);
-		}
 		i++;
 	}
 	if (count == 21 && str[20] != '\n')
-	{
-		//printf("return 4\n");
 		return (4);
-	}
 	if (!check_connection(str))
-	{
-		//printf("return 5\n");
 		return (5);
-	}
-	//printf("return 0\n");
 	return (0);
 }
 
-/*int		comparison_function(t_tetri *tetri, int index)
-{
-
-}*/
-
-t_tetri	*read_tetri(t_tetri *tetri, int fd, int index)
+t_tetri	*read_tetri(t_tetri *tetri, int fd)
 {
 	char 	*buff;
 	char	alpha;
 	int		count;
-	//t_tetri	*tetri;
-	//int		index;
 
 	alpha = 'A';
 	buff = ft_strnew(21);
-	//tetri = NULL;
-	//index = 0;
 	while ((count = read(fd, buff, 21)) >= 20)
 	{
-		tetri = (t_tetri *)malloc(sizeof(t_tetri) * 26);
-		// quand je veux index++, tout bug ! trouver alternative ou diviser en 2 variables 
-		if ((check_counts(buff, count)) != 0 || (tetri = get_piece(tetri, buff, alpha++, index)) == NULL)
+		if ((check_counts(buff, count)) != 0 || (tetri = get_piece(tetri, buff, alpha++)) == NULL)
 		{
 			ft_memdel((void **)&buff);
-			return (free_tetri(tetri, index));
+			return (free_tetri(tetri));
 		}
-		printf("index read = %d\n", tetri->index);
-		//tetri = (t_tetri *)malloc(sizeof(t_tetri) * 26);
+		tetri = (t_tetri *)malloc(sizeof(t_tetri) * 26);
 	}
 	ft_memdel((void **)&buff);
-	//printf("count = %d\n", count);
 	if (count != 0)
-		return (free_tetri(tetri, index));	
+		return (free_tetri(tetri));
 	return (tetri);
 }
 

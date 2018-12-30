@@ -6,7 +6,7 @@
 /*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 11:53:12 by psentilh          #+#    #+#             */
-/*   Updated: 2018/12/29 21:43:33 by pommedepin       ###   ########.fr       */
+/*   Updated: 2018/12/30 16:23:09 by pommedepin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,10 @@ int		main(int ac, char **av)
 {
 	t_grid	*grid;
 	t_tetri	*tetri;
-	int		index;
+	//int		index;
 	int		fd;
 
-	index = 0;
+	//index = 0;
 	tetri = NULL;
 	if (ac < 2)
 	{
@@ -56,7 +56,7 @@ int		main(int ac, char **av)
 		ft_putstr("One file at a time arsehole.\nNo chritmas present for you ! 🎅 🖕 🎁 💥\n");
 		return (-1);
 	}
-	if ((tetri = read_tetri(tetri, (fd = open(av[1], O_RDONLY)), index)) == NULL)
+	if ((tetri = read_tetri(tetri, (fd = open(av[1], O_RDONLY))/*, index*/)) == NULL)
 	{
 		close(fd);
 		ft_putstr("You wanker... 😑\nYou couldn't even find a valid file ? 👊 💢\n");
@@ -65,7 +65,7 @@ int		main(int ac, char **av)
 	grid = solve_grid(tetri);
 	print_grid(grid);
 	free_grid(grid);
-	free_tetri(tetri, index);
+	free_tetri(tetri/*, index*/);
 	close(fd);
 	return (0);
 }

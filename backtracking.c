@@ -6,7 +6,7 @@
 /*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 14:20:29 by psentilh          #+#    #+#             */
-/*   Updated: 2018/12/29 14:00:15 by pommedepin       ###   ########.fr       */
+/*   Updated: 2018/12/30 16:58:51 by pommedepin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,10 +143,10 @@ t_grid	*solve_grid(t_tetri *tetri)
 	int		size;
 	int		index;
 
-	index = tetri->index;
-	printf("index = %d\n", index);
+	index = tetri_count(tetri);
 	size = right_grid(index * 4); // = right_grid(6 * 4) = 24 puis == 5
 	grid = init_grid(size);
+	//ft_print_words_tables(grid->tab);
 	while(!backtracking(tetri, grid, index))
 	{
 		size++;

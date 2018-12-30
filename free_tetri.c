@@ -32,7 +32,7 @@
 	free(test);
 }*/
 
-t_tetri	*free_tetri(t_tetri *tetri, int index)
+t_tetri	*free_tetri(t_tetri *tetri/*, int index*/)
 {
 	/*int i;
 

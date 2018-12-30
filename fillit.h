@@ -6,7 +6,7 @@
 /*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 13:38:21 by psentilh          #+#    #+#             */
-/*   Updated: 2018/12/29 14:10:28 by pommedepin       ###   ########.fr       */
+/*   Updated: 2018/12/30 16:09:32 by pommedepin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ typedef struct		s_point
 int		check_tetri(char **tab);
 int		ft_check_pattern(char **tab, int y, int x, int count);
 int		sort_tetri(char *str, t_tetri *test, int i);
-t_tetri	*read_tetri(t_tetri *tetri, int fd, int index);
-t_tetri	*get_piece(t_tetri *tetri, char *buff, char alpha, int index);
+t_tetri	*read_tetri(t_tetri *tetri, int fd/*, int index*/);
+t_tetri	*get_piece(t_tetri *tetri, char *buff, char alpha/*, int index*/);
 int		check_connection(char *str);
 int		check_counts(char *str, int count);
 void	min_max(char *str, t_point *min, t_point *max);
@@ -63,6 +63,7 @@ int		count_tetri(t_tetri *tetri);
 t_grid	*init_grid(int size);
 void	print_grid(t_grid *grid);
 void	free_grid(t_grid *grid);
+int		tetri_count(t_tetri *tetri);
 
 /*
 ** Resolution :
@@ -77,7 +78,7 @@ t_point	*new_point(int x, int y);
 /*
 ** Extra functions :
 */
-t_tetri	*free_tetri(t_tetri *tetri, int index);
-t_tetri	*new_tetri(t_tetri *tetri, char **pos, int w, int h, char alpha, int index);
+t_tetri	*free_tetri(t_tetri *tetri/*, int index*/);
+t_tetri	*new_tetri(t_tetri *tetri, char **pos, int w, int h, char alpha/*, int index*/);
 
 #endif
