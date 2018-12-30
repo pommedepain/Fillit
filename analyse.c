@@ -6,7 +6,7 @@
 /*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 21:00:54 by psentilh          #+#    #+#             */
-/*   Updated: 2018/12/30 17:19:50 by pommedepin       ###   ########.fr       */
+/*   Updated: 2018/12/30 17:29:15 by pommedepin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,5 +143,3 @@ t_tetri	*read_tetri(t_tetri *tetri, int fd)
 		return (free_tetri(tetri));
 	return (tetri);
 }
-
-// verifier de bien envoyer tetri.index dans les params de fonctions et dans leur prototypage pour garder la continuité de la valeurx
