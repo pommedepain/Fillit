@@ -3,22 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   analyse.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 21:00:54 by psentilh          #+#    #+#             */
-/*   Updated: 2018/12/30 17:29:15 by pommedepin       ###   ########.fr       */
+/*   Updated: 2019/01/03 15:18:18 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 #include <stdio.h>
 
-t_tetri	*new_tetri(t_tetri *tetri, char **pos, int w, int h, char alpha)
+t_tetri	*new_tetri(t_tetri *tetri/*, char **pos*/, int w, int h, char alpha)
 {
-	tetri->piece = pos;
+	//char	**temp;
+
+	//temp = pos;
+	//tetri->piece = pos;
 	tetri->w = w;
 	tetri->h = h;
 	tetri->alpha = alpha;
+	//free(temp);
 	return (tetri);
 }
 
@@ -48,22 +52,29 @@ t_tetri	*get_piece(t_tetri *tetri, char *buff, char alpha)
 {
 	t_point *min;
 	t_point *max;
-	char	**pos;
+	//char	**pos;
 	int		i;
 
 	min = new_point(3, 3);
 	max = new_point(0, 0);
 	min_max(buff, min, max);
-	pos = ft_memalloc(sizeof(char *) * (max->y - min->y + 1));
-	i = 0;
-	while (i < max->y - min->y + 1)
+	//tetri->piece = ft_memalloc(sizeof(char *) * (max->y - min->y + 1));
+	i = ft_word_count(buff, '\n');
+	tetri->piece = NULL;
+	tetri->piece = (char **)malloc(sizeof(char *) * (i + 1));
+	tetri->piece[i] = 0;
+	ft_letter_count(tetri->piece, buff, '\n');
+	ft_tab_filling(tetri->piece, buff, '\n');
+	//tetri->piece = strsplit(buff, '\n');
+	printf("ici\n");
+	//i = 0;
+	/*while (i < max->y - min->y + 1)
 	{
 		pos[i] = ft_strnew(max->x - min->x + 1);
 		ft_strncpy(pos[i], buff + (min->x) + (i + min->y) * 5, max->x - min->x + 1);
 		i++;
-	}
-	//tetri->piece = ft_memalloc(sizeof(char *) * (max->y - min->y + 1));
-	tetri = new_tetri(tetri, pos, max->x - min->x + 1, max->y - min->y + 1, alpha);
+	}*/
+	tetri = new_tetri(tetri/*, pos*/, max->x - min->x + 1, max->y - min->y + 1, alpha);
 	ft_memdel((void **)&min);
 	ft_memdel((void **)&max);
 	return (tetri);

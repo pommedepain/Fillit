@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fillit.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 13:38:21 by psentilh          #+#    #+#             */
-/*   Updated: 2018/12/30 16:09:32 by pommedepin       ###   ########.fr       */
+/*   Updated: 2019/01/03 15:23:03 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,12 @@
 
 typedef	struct		s_tetri
 {
-	char	**piece;
-	char	alpha;
-	int		index;
-	int		h;
-	int		w;
+	char			**piece;
+	char			alpha;
+	int				index;
+	int				h;
+	int				w;
+	struct s_tetri	*next;
 }					t_tetri;
 
 typedef struct		s_grid
@@ -79,6 +80,6 @@ t_point	*new_point(int x, int y);
 ** Extra functions :
 */
 t_tetri	*free_tetri(t_tetri *tetri/*, int index*/);
-t_tetri	*new_tetri(t_tetri *tetri, char **pos, int w, int h, char alpha/*, int index*/);
+t_tetri	*new_tetri(t_tetri *tetri/*, char **pos*/, int w, int h, char alpha/*, int index*/);
 
 #endif
