@@ -12,7 +12,7 @@
 
 #include "fillit.h"
 
-/*void	free_all(t_tetri *test)
+void	free_all(t_tetri *test)
 {
 	int i;
 	int y;
@@ -29,10 +29,11 @@
 		free(test[y].piece);
 		y++;
 	}
+	ft_memdel((void **)&test);
 	free(test);
-}*/
+}
 
-t_tetri	*free_tetri(t_tetri *tetri/*, int index*/)
+t_tetri	*free_tetri(t_tetri *tetri)
 {
 	/*int i;
 
@@ -50,7 +51,7 @@ t_tetri	*free_tetri(t_tetri *tetri/*, int index*/)
 	ft_memdel((void **)&tetri);
 	return (tetri);*/
 	int i = 26;
-	while (i != 0)
+	while (i)
 	{
 		ft_memdel((void **)&tetri);
 		i--;
