@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   backtracking.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 14:20:29 by psentilh          #+#    #+#             */
-/*   Updated: 2018/12/30 16:58:51 by pommedepin       ###   ########.fr       */
+/*   Updated: 2019/01/04 16:43:53 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,6 @@ int		backtracking(t_tetri *tetri, t_grid *grid, int index)
 	int x;
 
 	y = 0;
-	//ft_putstr("ici");
 	while (y < (grid->size - tetri->h + 1))
 	{
 		x = 0;
@@ -152,7 +151,7 @@ t_grid	*solve_grid(t_tetri *tetri)
 		size++;
 		free_grid(grid);
 		grid = init_grid(size);
-		index--;
+		//index--;
 	}
 	return (grid);
 }

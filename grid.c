@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   grid.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/11 13:11:00 by psentilh          #+#    #+#             */
-/*   Updated: 2018/12/30 17:02:06 by pommedepin       ###   ########.fr       */
+/*   Updated: 2019/01/04 16:39:07 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ t_grid	*init_grid(int size)// peut-etre à simplifier avec memset
 */
 int			tetri_count(t_tetri *tetri)
 {
-	int index;
+	/*int index;
 
 	index = 1;
 	while (tetri->alpha != 'A')
@@ -75,7 +75,20 @@ int			tetri_count(t_tetri *tetri)
 		tetri->alpha--;
 		index++;
 	}
-	return(index);
+	return(index);*/
+
+	int index;
+	int	i;
+
+	i = 0;
+	index = 1;
+	while (tetri[i].piece)
+	{
+		if (tetri[i].alpha <= 'Z' || tetri[i].alpha >= 'A')
+			index++;
+		i++;
+	}
+	return (i);
 }
 
 int			right_grid(int nb)

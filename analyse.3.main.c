@@ -3,13 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   analyse.3.main.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfauvell <cfauvell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 14:15:40 by cfauvell          #+#    #+#             */
-/*   Updated: 2019/01/03 15:29:32 by cfauvell         ###   ########.fr       */
+/*   Updated: 2019/01/04 16:39:00 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include <stdio.h>
 #include "fillit.h"
 
 //Fonction qui recupère tout le fichier d'un coup
@@ -97,7 +98,7 @@ t_tetri         *ft_put_in_struct(t_tetri *test, int fd)
     if (!(final = read_all_file(fd, final, &ret)))
             return (NULL);
     len = (ft_strlen(final) + 1) / 21;
-    if (!(test = (t_tetri*)malloc(sizeof(t_tetri) * len + 1)))
+    if (!(test = (t_tetri *)malloc(sizeof(t_tetri) * (len + 1))))
             return (NULL);
     while (len--)
     {
@@ -118,19 +119,28 @@ int		main(int ac, char **av)
 	int			fd;
 	t_tetri		*test;
 	int index;
+	t_grid	*grid;
 
+	grid = NULL;
 	test = NULL;
 	if (ac != 2)
 		return (-1);
 	fd = open(av[1],  O_RDONLY);
 	if (!(test = ft_put_in_struct(test, fd)))
 		return (-1);
-	index = test->index;
-	ft_print_words_tables(test[25].piece);
-	ft_putnbr(test[25].index);
-	ft_putchar('\n');
-	ft_putchar(test[25].alpha);
-	ft_putchar('\n');
+	while (index != 4)
+	{
+		ft_print_words_tables(test[index].piece);
+		ft_putnbr(test[index].index);
+		ft_putchar('\n');
+		ft_putchar(test[index].alpha);
+		ft_putstr("\n\n");
+		index++;
+	}
+	grid = solve_grid(test);
+	//printf("ici\n");
+	print_grid(grid);
+	free_grid(grid);
 	free_all(test);
 	close (fd);
 	return (1);
