@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   backtracking.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 14:20:29 by psentilh          #+#    #+#             */
-/*   Updated: 2019/01/04 16:43:53 by psentilh         ###   ########.fr       */
+/*   Updated: 2019/01/05 17:36:27 by pommedepin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,53 +22,6 @@ t_point	*new_point(int x, int y)
 	point->y = y;
 	return (point);
 }
-
-/*t_tetri	*tetri_init(t_tetri *tetri, int h, int w)
-{
-	tetri = (t_tetri *)malloc(sizeof(t_tetri));
-	tetri->h = h;
-	tetri->w = w;
-	return (tetri);
-}*/
-
-/*void	min_max(t_tetri *tetri, t_point *min, t_point *max)
-{
-	int index;
-	int i;
-
-	i = 0;
-	index = tetri->index;
-	while (i < 20)
-	{
-		if ((int)tetri[index].piece == '#')//crée potentiellement pb de segv à cause du cast
-		{
-			if (i / 5 < min->y)
-				min->y = i / 5;
-			if (i / 5 > max->y)
-				max->y = i / 5;
-			if (i % 5 < min->x)
-				min->x = i % 5;
-			if (i % 5 > max->x)
-				max->x = i % 5;
-		}
-		i++;
-	}
-}*/
-
-/*t_tetri	*tetri_h_w(t_tetri *tetri)
-{
-	t_point *min;
-	t_point *max;
-
-	min = new_point(3, 3);
-	max = new_point(0, 0);
-	min_max((t_tetri *)tetri->piece, min, max);
-	tetri->h = max->x - min->x + 1;
-	tetri->w = max->y - min->y + 1;
-	ft_memdel((void **)&min);
-	ft_memdel((void **)&max);
-	return (tetri);
-}*/
 
 int		choose_place_grid(t_tetri *tetri, t_grid *grid, int x, int y, int index)
 {
@@ -117,6 +70,9 @@ int		backtracking(t_tetri *tetri, t_grid *grid, int index)
 	int x;
 
 	y = 0;
+	//printf("index = %d\n", index);
+	//printf("tetri->h = %d\n", tetri->h);
+	//printf("tetri[index].h = %d\n", tetri[index].h);
 	while (y < (grid->size - tetri->h + 1))
 	{
 		x = 0;
@@ -140,18 +96,27 @@ t_grid	*solve_grid(t_tetri *tetri)
 {
 	t_grid	*grid;
 	int		size;
+	int		count;
 	int		index;
 
-	index = tetri_count(tetri);
-	size = right_grid(index * 4); // = right_grid(6 * 4) = 24 puis == 5
+	count = tetri_count(tetri);
+	index = (count - 1);
+	/*printf("tetri->alpha = %c\n", tetri->alpha);
+	printf("tetri[index].alpha = %c\n", tetri[0].alpha);*/
+	size = right_grid(count * 4); // = right_grid(6 * 4) = 24 puis == 5
 	grid = init_grid(size);
-	//ft_print_words_tables(grid->tab);
-	while(!backtracking(tetri, grid, index))
+	/*ft_print_words_tables(grid->tab);
+	ft_putchar('\n');*/
+	while((!backtracking(tetri, grid, index) && index == 0))
 	{
 		size++;
 		free_grid(grid);
 		grid = init_grid(size);
-		//index--;
+		index--;
+		count++;
+		/*printf("tetri->alpha = %c\n", tetri->alpha);
+		printf("tetri[index].alpha = %c\n", tetri[0].alpha);*/
 	}
+	//arrive jusque là.
 	return (grid);
 }

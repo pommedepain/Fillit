@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   analyse.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 21:00:54 by psentilh          #+#    #+#             */
-/*   Updated: 2019/01/03 15:18:18 by psentilh         ###   ########.fr       */
+/*   Updated: 2019/01/05 16:45:31 by pommedepin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_tetri	*new_tetri(t_tetri *tetri/*, char **pos*/, int w, int h, char alpha)
 	return (tetri);
 }
 
-void	min_max(char *str, t_point *min, t_point *max)
+void	min_max(t_tetri *tetri, t_point *min, t_point *max)
 {
 	int i;
 

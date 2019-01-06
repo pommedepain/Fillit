@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fillit.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfauvell <cfauvell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 13:38:21 by psentilh          #+#    #+#             */
-/*   Updated: 2019/01/03 15:48:08 by cfauvell         ###   ########.fr       */
+/*   Updated: 2019/01/05 16:49:29 by pommedepin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ t_tetri	*read_tetri(t_tetri *tetri, int fd/*, int index*/);
 t_tetri	*get_piece(t_tetri *tetri, char *buff, char alpha/*, int index*/);
 int		check_connection(char *str);
 int		check_counts(char *str, int count);
-void	min_max(char *str, t_point *min, t_point *max);
+void	min_max(t_tetri *tetri, t_point *min, t_point *max, int index);
+t_tetri	*tetri_h_w(t_tetri *tetri);
 
 /*
 ** Grid :
