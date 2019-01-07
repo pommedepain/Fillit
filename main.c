@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 11:53:12 by psentilh          #+#    #+#             */
-/*   Updated: 2018/12/30 16:23:09 by pommedepin       ###   ########.fr       */
+/*   Updated: 2019/01/07 14:52:27 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,12 @@ int		main(int ac, char **av)
 {
 	t_grid	*grid;
 	t_tetri	*tetri;
-	//int		index;
+	int		index;
 	int		fd;
 
-	//index = 0;
+	index = 0;
 	tetri = NULL;
+	grid = NULL;
 	if (ac < 2)
 	{
 		ft_putstr("Are you braindamaged ? 🤦\nYou forgot the file dumbass ! 👏\n");
@@ -56,16 +57,32 @@ int		main(int ac, char **av)
 		ft_putstr("One file at a time arsehole.\nNo chritmas present for you ! 🎅 🖕 🎁 💥\n");
 		return (-1);
 	}
-	if ((tetri = read_tetri(tetri, (fd = open(av[1], O_RDONLY))/*, index*/)) == NULL)
+	fd = open(av[1],  O_RDONLY);
+	if (!(tetri = put_in_struct(tetri, fd, index)))
 	{
 		close(fd);
 		ft_putstr("You wanker... 😑\nYou couldn't even find a valid file ? 👊 💢\n");
 		return (-1);
 	}
+	if ((tetri_h_w(tetri) == NULL))
+		return (-1);
+	while (index != 4)
+	{
+		ft_print_words_tables(tetri[index].piece);
+		ft_putnbr(tetri[index].index);
+		ft_putchar('\n');
+		ft_putchar(tetri[index].alpha);
+		ft_putchar('\n');
+		ft_putnbr(tetri[index].h);
+		ft_putchar('\n');
+		ft_putnbr(tetri[index].w);
+		ft_putstr("\n\n");
+		index++;
+	}
 	grid = solve_grid(tetri);
 	print_grid(grid);
 	free_grid(grid);
-	free_tetri(tetri/*, index*/);
+	free_all(tetri);
 	close(fd);
 	return (0);
 }

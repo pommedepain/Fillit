@@ -3,39 +3,158 @@
 /*                                                        :::      ::::::::   */
 /*   analyse.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 21:00:54 by psentilh          #+#    #+#             */
-/*   Updated: 2019/01/05 16:45:31 by pommedepin       ###   ########.fr       */
+/*   Updated: 2019/01/07 14:52:20 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 #include <stdio.h>
 
-t_tetri	*new_tetri(t_tetri *tetri/*, char **pos*/, int w, int h, char alpha)
-{
-	//char	**temp;
+/*
+** Get the file to a string
+*/
 
-	//temp = pos;
-	//tetri->piece = pos;
-	tetri->w = w;
-	tetri->h = h;
-	tetri->alpha = alpha;
-	//free(temp);
-	return (tetri);
+char	*read_all_file(int fd, char *buff)
+{
+	char	tmp[BUFF_SIZE + 1];
+	char	*tmp2;
+	int		ret;
+
+	ret = 0;
+	ret = read(fd, tmp, BUFF_SIZE);
+	tmp[ret] = '\0';
+	tmp2 = buff;
+	if (!(buff = ft_strjoin(buff, tmp)))
+		return (NULL);
+	if (buff[0] == '\n' || ft_strlen(buff) > 545 ||
+		(ft_strlen(buff) + 1) % 21 != 0)
+	{
+		free(buff);
+		free(tmp2);
+		return (NULL);
+	}
+	free(tmp2);
+	return (buff);
 }
 
-void	min_max(t_tetri *tetri, t_point *min, t_point *max)
-{
-	int i;
+/*
+** Divide the string into a char array
+*/
 
+int		sort_tetri(char *str, t_tetri *test, int i)
+{
+	char	*tmp;
+
+	if ((tmp = ft_strstr(str, "\n\n")) != NULL)
+		*tmp = '\0';
+	if (!(test[i].piece = ft_strsplit(str, '\n')))
+		return (-1);
+	ft_memmove(str, tmp + 2, ft_strlen(tmp + 2));
+	return (1);
+}
+
+/*
+** Check tetriminos (secondary function)
+*/
+
+int		ft_check_pattern(char **tab, int y, int x, int count)
+{
+	y != 0 && tab[y - 1][x] == '#' ? count++ : 0;
+	x != 0 && tab[y][x - 1] == '#' ? count++ : 0;
+	x != 3 && tab[y][x + 1] == '#' ? count++ : 0;
+	y != 3 && tab[y + 1][x] == '#' ? count++ : 0;
+	return (count);
+}
+
+/*
+** Check tetriminos (principal function)
+*/
+
+int		check_tetri(char **tab)
+{
+	int x;
+	int y;
+	int hash;
+	int count;
+
+	y = -1;
+	hash = 0;
+	count = 0;
+	while (tab[++y])
+	{
+		x = -1;
+		while (tab[y][++x])
+		{
+			if (tab[y][x] != '.' && tab[y][x] != '#')
+				return (0);
+			if (tab[y][x] == '#')
+			{
+				hash++;
+				count = ft_check_pattern(tab, y, x, count);
+			}
+		}
+		if (x != 4)
+			return (0);
+	}
+	return (y == 4 && hash == 4 && count >= 6);
+}
+
+/*
+** Convert the file to a structure table
+** (if valid)
+*/
+
+t_tetri	*put_in_struct(t_tetri *test, int fd, int index)
+{
+	static char	*final;
+	int			len;
+
+	if (!(final = ft_strnew(0)))
+		return (NULL);
+	if (!(final = read_all_file(fd, final)))
+		return (NULL);
+	len = (ft_strlen(final) + 1) / 21;
+	if (!(test = (t_tetri *)malloc(sizeof(t_tetri) * (len + 1))))
+		return (NULL);
+	while (len--)
+	{
+		if (!(sort_tetri(final, test, index)))
+			return (NULL);
+		if (!(check_tetri(test[index++].piece)))
+		{
+			free_all(test);
+			return (NULL);
+		}
+		test[index - 1].index = index;
+		test[index - 1].alpha = 64 + index;
+	}
+	test[index].piece = NULL;
+	return (test);
+}
+
+void	min_max(t_tetri *tetri, t_point *min, t_point *max, int index)
+{
+	int		i;
+	int		j;
+	char	*str;
+
+	str = ft_strnew(21);
+	i = 0;
+	while (i < 4)
+	{
+		str = ft_strcat(str, tetri[index].piece[i]);
+		str = ft_strcat(str, "\n");
+		i++;
+	}
 	i = 0;
 	while (i < 20)
 	{
 		if (str[i] == '#')
 		{
-			if (i/ 5 < min->y)
+			if (i / 5 < min->y)
 				min->y = i / 5;
 			if (i / 5 > max->y)
 				max->y = i / 5;
@@ -46,111 +165,28 @@ void	min_max(t_tetri *tetri, t_point *min, t_point *max)
 		}
 		i++;
 	}
+	free(str);
 }
 
-t_tetri	*get_piece(t_tetri *tetri, char *buff, char alpha)
+t_tetri	*tetri_h_w(t_tetri *tetri)
 {
 	t_point *min;
 	t_point *max;
-	//char	**pos;
-	int		i;
+	int		index;
 
-	min = new_point(3, 3);
-	max = new_point(0, 0);
-	min_max(buff, min, max);
-	//tetri->piece = ft_memalloc(sizeof(char *) * (max->y - min->y + 1));
-	i = ft_word_count(buff, '\n');
-	tetri->piece = NULL;
-	tetri->piece = (char **)malloc(sizeof(char *) * (i + 1));
-	tetri->piece[i] = 0;
-	ft_letter_count(tetri->piece, buff, '\n');
-	ft_tab_filling(tetri->piece, buff, '\n');
-	//tetri->piece = strsplit(buff, '\n');
-	printf("ici\n");
-	//i = 0;
-	/*while (i < max->y - min->y + 1)
+	index = tetri_count(tetri) - 1;
+	while (index != -1)
 	{
-		pos[i] = ft_strnew(max->x - min->x + 1);
-		ft_strncpy(pos[i], buff + (min->x) + (i + min->y) * 5, max->x - min->x + 1);
-		i++;
-	}*/
-	tetri = new_tetri(tetri/*, pos*/, max->x - min->x + 1, max->y - min->y + 1, alpha);
-	ft_memdel((void **)&min);
-	ft_memdel((void **)&max);
-	return (tetri);
-}
-
-int		check_connection(char *str)
-{
-	int block;
-	int i;
-
-	block = 0;
-	i = 0;
-	while (i < 20)
-	{
-		if (str[i] == '#')
-		{
-			if ((i + 1) < 20 && str[i + 1] == '#')
-				block++;
-			if ((i - 1) >= 0 && str[i - 1] == '#')
-				block++;
-			if ((i + 5) < 20 && str[i + 5] == '#')
-				block++;
-			if ((i - 5) >= 0 && str[i - 5] == '#')
-				block++;
-		}
-		i++;
+		min = new_point(3, 3);
+		max = new_point(0, 0);
+		min_max(tetri, min, max, index);
+		//tetri[index].h = max->x - min->x + 1;
+		//tetri[index].w = max->y - min->y + 1;
+		tetri[index].h = max->y - min->y + 1;
+		tetri[index].w = max->x - min->x + 1;
+		ft_memdel((void **)&min);
+		ft_memdel((void **)&max);
+		index--;
 	}
-	return (block == 6 || block == 8);
-}
-
-int		check_counts(char *str, int count)
-{
-	int i;
-	int blocs;
-
-	blocs = 0;
-	i = 0;
-	while (i < 20)
-	{
-		if (i % 5 < 4)
-		{
-			if (!(str[i] == '#' || str[i] == '.'))
-				return (1);
-			if (str[i] == '#' && ++blocs > 4)
-				return (2);
-		}
-		else if (str[i] != '\n')
-			return (3);
-		i++;
-	}
-	if (count == 21 && str[20] != '\n')
-		return (4);
-	if (!check_connection(str))
-		return (5);
-	return (0);
-}
-
-t_tetri	*read_tetri(t_tetri *tetri, int fd)
-{
-	char 	*buff;
-	char	alpha;
-	int		count;
-
-	alpha = 'A';
-	buff = ft_strnew(21);
-	while ((count = read(fd, buff, 21)) >= 20)
-	{
-		if ((check_counts(buff, count)) != 0 || (tetri = get_piece(tetri, buff, alpha++)) == NULL)
-		{
-			ft_memdel((void **)&buff);
-			return (free_tetri(tetri));
-		}
-		tetri = (t_tetri *)malloc(sizeof(t_tetri) * 26);
-	}
-	ft_memdel((void **)&buff);
-	if (count != 0)
-		return (free_tetri(tetri));
 	return (tetri);
 }

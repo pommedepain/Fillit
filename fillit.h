@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fillit.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 13:38:21 by psentilh          #+#    #+#             */
-/*   Updated: 2019/01/05 16:49:29 by pommedepin       ###   ########.fr       */
+/*   Updated: 2019/01/07 14:47:33 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ typedef struct		s_point
 /*
 ** Parsing :
 */
+t_tetri	*put_in_struct(t_tetri *test, int fd, int index);
 int		check_tetri(char **tab);
 int		ft_check_pattern(char **tab, int y, int x, int count);
 int		sort_tetri(char *str, t_tetri *test, int i);
@@ -74,7 +75,6 @@ int		backtracking(t_tetri *tetri, t_grid *grid, int index);
 void	place_piece(t_tetri *tetri, t_grid *grid, t_point *point, char c, int index);
 int		choose_place_grid(t_tetri *tetri, t_grid *grid, int x, int y, int index);
 t_point	*new_point(int x, int y);
-//t_tetri	*tetri_init(t_tetri *tetri, int h, int w);
 
 /*
 ** Extra functions :

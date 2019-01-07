@@ -11,26 +11,24 @@
 /* ************************************************************************** */
 
 #include "fillit.h"
-#include <stdio.h>
 
 void	free_all(t_tetri *test)
 {
 	int i;
 	int y;
 
-	y = 0;
-	while(test[y].piece != '\0')
+	i = 0;
+	while(test[i].piece)
 	{
-		i = 0;
-		while(test[y].piece[i] != '\0')
+		y = 0;
+		while(test[i].piece[y])
 		{
-			free(test[y].piece[i]);
-			i++;
+			free(test[i].piece[y]);
+			y++;
 		}
-		free(test[y].piece);
-		y++;
+		free(test[i].piece);
+		i++;
 	}
-	ft_memdel((void **)&test);
 	free(test);
 }
 

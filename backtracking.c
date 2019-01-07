@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   backtracking.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 14:20:29 by psentilh          #+#    #+#             */
-/*   Updated: 2019/01/05 17:36:27 by pommedepin       ###   ########.fr       */
+/*   Updated: 2019/01/07 17:52:37 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int		choose_place_grid(t_tetri *tetri, t_grid *grid, int x, int y, int index)
 		}
 		i++;
 	}
-	place_piece(tetri, grid, new_point(x, y), tetri->alpha, index);
+	place_piece(tetri, grid, new_point(x, y), tetri[index].alpha, index);
 	return (1);
 }
 
@@ -73,10 +73,10 @@ int		backtracking(t_tetri *tetri, t_grid *grid, int index)
 	//printf("index = %d\n", index);
 	//printf("tetri->h = %d\n", tetri->h);
 	//printf("tetri[index].h = %d\n", tetri[index].h);
-	while (y < (grid->size - tetri->h + 1))
+	while (y < (grid->size - tetri[index].h + 1))
 	{
 		x = 0;
-		while (x < (grid->size - tetri->w + 1))
+		while (x < (grid->size - tetri[index].w + 1))
 		{
 			if (choose_place_grid(tetri, grid, x, y, index))
 			{
@@ -99,23 +99,26 @@ t_grid	*solve_grid(t_tetri *tetri)
 	int		count;
 	int		index;
 
-	count = tetri_count(tetri);
-	index = (count - 1);
+	count = tetri_count(tetri) - 1;
+	index = 0;
+	printf("index 1 = %d\n", index);
+	printf("count 1 = %d\n", count);
 	/*printf("tetri->alpha = %c\n", tetri->alpha);
 	printf("tetri[index].alpha = %c\n", tetri[0].alpha);*/
 	size = right_grid(count * 4); // = right_grid(6 * 4) = 24 puis == 5
 	grid = init_grid(size);
 	/*ft_print_words_tables(grid->tab);
 	ft_putchar('\n');*/
-	while((!backtracking(tetri, grid, index) && index == 0))
+	while((!backtracking(tetri, grid, index) && index != count))
 	{
 		size++;
 		free_grid(grid);
 		grid = init_grid(size);
-		index--;
-		count++;
+		index++;
+		printf("index = %d\n", index);
+		printf("count = %d\n", count);
 		/*printf("tetri->alpha = %c\n", tetri->alpha);
-		printf("tetri[index].alpha = %c\n", tetri[0].alpha);*/
+		printf("tetri[index].alpha = %c\n", tetri[index].alpha);*/
 	}
 	//arrive jusque là.
 	return (grid);
