@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   backtracking.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 14:20:29 by psentilh          #+#    #+#             */
-/*   Updated: 2019/01/07 17:52:37 by psentilh         ###   ########.fr       */
+/*   Updated: 2019/01/08 18:32:32 by pommedepin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,23 @@ t_point	*new_point(int x, int y)
 	return (point);
 }
 
+/*
+** Fonction qui vérifie si aux coordonnées choisies, il n'y a pas déjà un tétri de placé.
+** Si c'est le cas, il renvoie 0 et cherche d'autres coordonnées. 
+** Sinon, il les garde en mémoire et part dans la fonction place_piece.
+*/
 int		choose_place_grid(t_tetri *tetri, t_grid *grid, int x, int y, int index)
 {
 	int i;
 	int j;
 
 	i = 0;
-	while (i < tetri[index].w)
+	while (i < (tetri[index].w))
 	{
 		j = 0;
 		while (j < tetri[index].h)
 		{
+			// peut-être pb à checker dans la vérif sur tetri[index].piece[j][i] si on est sur un tétri de w de 1 car dans ce cas le check se fait au mauvais indexage ?
 			if (tetri[index].piece[j][i] == '#' && grid->tab[y + j][x + i] != '.')
 				return (0);
 			j++;
@@ -53,41 +59,45 @@ void	place_piece(t_tetri *tetri, t_grid *grid, t_point *point, char c, int index
 	while (i < tetri[index].w)
 	{
 		j = 0;
+		//printf("tetri[index].w = %d\n", tetri[index].w);
+		//printf("i = %d\n", i + 1);
 		while (j < tetri[index].h)
 		{
+			//printf("tetri[index].h = %d\n", tetri[index].h);
+			//printf("j = %d\n", j);
 			if (tetri[index].piece[j][i] == '#')
 				grid->tab[point->y + j][point->x + i] = c;
 			j++;
 		}
 		i++;
 	}
-	ft_memdel((void **)&point);
+	ft_memdel((void **)point);
 }
 
-int		backtracking(t_tetri *tetri, t_grid *grid, int index)
+int		backtracking(t_grid *grid, t_tetri *tetri/*, int index*/)
 {
 	int y;
 	int x;
+	int index;
 
 	y = 0;
-	//printf("index = %d\n", index);
-	//printf("tetri->h = %d\n", tetri->h);
-	//printf("tetri[index].h = %d\n", tetri[index].h);
-	while (y < (grid->size - tetri[index].h + 1))
+	index = 0;
+	while (y < (grid->size - tetri[index].h + 1)) // size = 4; le +1 c'est pour que si la grille est initialisée à 4 et que le tétri fait 4 de h, il puisse etre placé quand même car il rentre tout pile
 	{
 		x = 0;
 		while (x < (grid->size - tetri[index].w + 1))
 		{
-			if (choose_place_grid(tetri, grid, x, y, index))
+			if (choose_place_grid(&tetri[index], grid, x, y, index))
 			{
-				if (backtracking(tetri, grid, index))
+				if (backtracking(grid, &tetri[index]) && tetri[index].piece == NULL) //&& tetri[index].end == 0)
 					return (1);
 				else
-					place_piece(tetri, grid, new_point(x, y), '.', index);
+					place_piece(&tetri[index], grid, new_point(x, y), '.', index);
 			}
 			x++;
 		}
 		y++;
+		index++;
 	}
 	return (0);
 }
@@ -97,29 +107,18 @@ t_grid	*solve_grid(t_tetri *tetri)
 	t_grid	*grid;
 	int		size;
 	int		count;
-	int		index;
 
-	count = tetri_count(tetri) - 1;
-	index = 0;
-	printf("index 1 = %d\n", index);
-	printf("count 1 = %d\n", count);
-	/*printf("tetri->alpha = %c\n", tetri->alpha);
-	printf("tetri[index].alpha = %c\n", tetri[0].alpha);*/
-	size = right_grid(count * 4); // = right_grid(6 * 4) = 24 puis == 5
+	count = tetri_count(tetri);
+	size = right_grid(count * 4);
 	grid = init_grid(size);
-	/*ft_print_words_tables(grid->tab);
+	/*ft_putstr(tetri[0].piece[4]);
 	ft_putchar('\n');*/
-	while((!backtracking(tetri, grid, index) && index != count))
+	while ((backtracking(grid, tetri)) != 1) //&& tetri[index].end != 0))
 	{
 		size++;
 		free_grid(grid);
 		grid = init_grid(size);
-		index++;
-		printf("index = %d\n", index);
-		printf("count = %d\n", count);
-		/*printf("tetri->alpha = %c\n", tetri->alpha);
-		printf("tetri[index].alpha = %c\n", tetri[index].alpha);*/
-	}
-	//arrive jusque là.
+	} 
+	printf("ici\n");
 	return (grid);
 }

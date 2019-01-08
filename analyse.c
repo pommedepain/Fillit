@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   analyse.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 21:00:54 by psentilh          #+#    #+#             */
-/*   Updated: 2019/01/07 14:52:20 by psentilh         ###   ########.fr       */
+/*   Updated: 2019/01/08 14:10:27 by pommedepin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,9 @@ t_tetri	*put_in_struct(t_tetri *test, int fd, int index)
 		}
 		test[index - 1].index = index;
 		test[index - 1].alpha = 64 + index;
+		//test[index - 1].end = 1;
 	}
+	//test[index - 1].end = 0;
 	test[index].piece = NULL;
 	return (test);
 }

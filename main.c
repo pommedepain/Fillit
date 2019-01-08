@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 11:53:12 by psentilh          #+#    #+#             */
-/*   Updated: 2019/01/07 14:52:27 by psentilh         ###   ########.fr       */
+/*   Updated: 2019/01/08 14:07:45 by pommedepin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ int		main(int ac, char **av)
 		ft_putnbr(tetri[index].h);
 		ft_putchar('\n');
 		ft_putnbr(tetri[index].w);
+		/*ft_putchar('\n');
+		ft_putnbr(tetri[index].end);*/
 		ft_putstr("\n\n");
 		index++;
 	}
