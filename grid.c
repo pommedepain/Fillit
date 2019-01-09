@@ -6,7 +6,7 @@
 /*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/11 13:11:00 by psentilh          #+#    #+#             */
-/*   Updated: 2019/01/04 16:39:07 by psentilh         ###   ########.fr       */
+/*   Updated: 2019/01/09 17:39:40 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,29 +77,20 @@ int			tetri_count(t_tetri *tetri)
 	}
 	return(index);*/
 
-	int index;
 	int	i;
 
 	i = 0;
-	index = 1;
 	while (tetri[i].piece)
-	{
-		if (tetri[i].alpha <= 'Z' || tetri[i].alpha >= 'A')
-			index++;
 		i++;
-	}
 	return (i);
 }
 
 int			right_grid(int nb)
 {
-	int racine;
+	int size;
 
-	racine = 1;
-	while (racine * racine < nb)
-		racine++;
-	if (racine * racine == (int)nb)
-	   return (racine);
-	else
-		return (racine);
+	size = 1;
+	while (size * size < nb)
+		size++;
+	return (size);
 }
