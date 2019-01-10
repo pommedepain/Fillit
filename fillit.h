@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fillit.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/28 13:38:21 by psentilh          #+#    #+#             */
-/*   Updated: 2019/01/08 14:39:01 by pommedepin       ###   ########.fr       */
+/*   Updated: 2019/01/10 17:29:16 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,16 +73,16 @@ int		tetri_count(t_tetri *tetri);
 ** Resolution :
 */
 t_grid	*solve_grid(t_tetri *tetri);
-int		backtracking(t_grid *grid, t_tetri *tetri/*, int index*/);
-void	place_piece(t_tetri *tetri, t_grid *grid, t_point *point, char c, int index);
-int		choose_place_grid(t_tetri *tetri, t_grid *grid, int x, int y, int index);
+int		backtracking(t_grid *grid, t_tetri *tetri);
+void	place_piece(t_tetri *tetri, t_grid *grid, int x, int y, char c);
+int		choose_place_grid(t_tetri *tetri, t_grid *grid, int x, int y);
 t_point	*new_point(int x, int y);
 
 /*
 ** Extra functions :
 */
 t_tetri	*free_tetri(t_tetri *tetri);
-t_tetri	*new_tetri(t_tetri *tetri, char **pos, int w, int h, char alpha/*, int index*/);
+t_tetri	*new_tetri(t_tetri *tetri, char **pos, int w, int h, char alpha);
 void	free_all(t_tetri *test);
 
 #endif
