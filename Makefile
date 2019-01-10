@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+         #
+#    By: cfauvell <cfauvell@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/28 13:07:43 by psentilh          #+#    #+#              #
-#    Updated: 2018/12/27 16:09:03 by pommedepin       ###   ########.fr        #
+#    Updated: 2019/01/10 18:38:47 by cfauvell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,19 +14,22 @@ NAME = fillit
 
 SHELL = /bin/zsh
 
+LIB= ./libft/libft.a
+
 CC = gcc
 
 FLAGS = -Wall -Werror -Wextra
 
 SRCS =	main.c\
-		analyse.c\
+		parsing.c\
+		sort_file.1.c\
+		sort_file.2.c\
+		sort_file.3.c\
 		backtracking.c\
 		grid.c\
 		free_tetri.c\
 
-DIR_OBJS = objs/
-
-OBJS = $(patsubst %.c, $(DIR_OBJS)%.o, $(SRCS))
+OBJS = $(patsubst %.c, %.o, $(SRCS))
 
 HEADERS = -I fillit.h
 
@@ -34,21 +37,16 @@ HEADERS = -I fillit.h
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@ar rcs $(NAME) $(OBJS)
-	@echo "Creating $(NAME)..."
-
-$(DIR_OBJS)%.o: %.c
-	@mkdir -p $(DIR_OBJS)
-	@$(CC) $(FLAGS) -c $< -o $@ $(HEADERS)
-	@echo "Compiling $<..."
+	@$(CC) $(FLAGS) $(HEADERS) -c $(SRCS) 
+	@echo "Compiling in progress $<..."
+	@$(CC) $(FLAGS) $(OBJS) $(LIB) -o $(NAME)
 
 clean:
-	@bin/rm -rf $(DIR_OBJS)
-	@echo "Cleaning $(DIR_OBJS)..."
+	@rm -rf $(OBJS)
+	@echo "making $(OBJS) disapear"
 
 fclean: clean
-	@bin/rm -rf $(NAME)
-	@echo "Cleaning $(NAME)..."
+	@rm -rf $(NAME)
 
 re: fclean all
 

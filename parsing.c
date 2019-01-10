@@ -6,7 +6,7 @@
 /*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 16:49:49 by cfauvell          #+#    #+#             */
-/*   Updated: 2019/01/10 18:14:09 by psentilh         ###   ########.fr       */
+/*   Updated: 2019/01/10 18:46:11 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int		check_tetri(char **tab)
 void	min_max(t_tetri *tetri, t_point *min, t_point *max, int index)
 {
 	int		i;
-	int		j;
 	char	*str;
 
 	str = ft_strnew(21);
