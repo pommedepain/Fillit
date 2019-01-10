@@ -6,7 +6,7 @@
 /*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 11:53:12 by psentilh          #+#    #+#             */
-/*   Updated: 2019/01/10 16:56:34 by psentilh         ###   ########.fr       */
+/*   Updated: 2019/01/10 18:03:03 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ int		main(int ac, char **av)
 	}
 	if ((tetri_h_w(tetri) == NULL))
 		return (-1);
-	while (index != 4)
+	while (tetri[index].piece)
 	{
 		ft_print_words_tables(tetri[index].piece);
 		ft_putnbr(tetri[index].index);

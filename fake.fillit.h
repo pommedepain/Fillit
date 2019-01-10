@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   fillit.h                                     :+:      :+:    :+:   */
+/*   fake_fillit.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/10 18:05:40 by psentilh          #+#    #+#             */
-/*   Updated: 2019/01/10 18:11:00 by psentilh         ###   ########.fr       */
+/*   Created: 2018/11/28 13:38:21 by psentilh          #+#    #+#             */
+/*   Updated: 2019/01/10 18:11:12 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FILLIT_H
-# define FILLIT_H
+#ifndef FAKE_FILLIT_H
+# define FAKE_FILLIT_H
 
 # include "libft/libft.h"
 # include <stdlib.h>
@@ -29,6 +29,7 @@ typedef	struct		s_tetri
 	int		index;
 	int		h;
 	int		w;
+	//int		end;
 }					t_tetri;
 
 typedef struct		s_grid
@@ -46,62 +47,42 @@ typedef struct		s_point
 /*
 ** Parsing :
 */
-
-int		ft_check_pattern(char **tab, int y, int x, int count);
+t_tetri	*put_in_struct(t_tetri *test, int fd, int index);
+char	*read_all_file(int fd, char *buff);
 int		check_tetri(char **tab);
+int		ft_check_pattern(char **tab, int y, int x, int count);
+int		sort_tetri(char *str, t_tetri *test, int i);
+t_tetri	*read_tetri(t_tetri *tetri, int fd/*, int index*/);
+t_tetri	*get_piece(t_tetri *tetri, char *buff, char alpha/*, int index*/);
+int		check_connection(char *str);
+int		check_counts(char *str, int count);
 void	min_max(t_tetri *tetri, t_point *min, t_point *max, int index);
 t_tetri	*tetri_h_w(t_tetri *tetri);
 
 /*
-** Sort file 1 :
-*/
-
-char	*read_all_file(int fd, char *buff);
-int		sort_tetri(char *str, t_tetri *test, int i);
-t_tetri	*put_in_struct(t_tetri *test, int fd, int index);
-
-/*
-** Sort file 2 :
-*/
-
-char	*clear_string1(char *tab);
-char	*clear_string2(char *tab);
-char	**tab_filling(char *tab);
-int		sort_particular_case(char *tmp2, t_tetri *test, int i);
-
-/*
-** Sort file 3 :
-*/
-
-char	**particular_T(void);
-char	**particular_T2(void);
-char	**particular_L(void);
-
-/*
 ** Grid :
 */
-
 int		right_grid(int nb);
+int		count_tetri(t_tetri *tetri);
 t_grid	*init_grid(int size);
 void	print_grid(t_grid *grid);
 void	free_grid(t_grid *grid);
 int		tetri_count(t_tetri *tetri);
 
 /*
-** Backtracking :
+** Resolution :
 */
-
-t_point	*new_point(int x, int y);
-int		choose_place_grid(t_tetri *tetri, t_grid *grid, int x, int y);
-void	place_piece(t_tetri *tetri, t_grid *grid, int x, int y, char c);
-int		new_pos(t_grid *grid, t_tetri *tetri, int x, int y);
-int		backtracking(t_grid *grid, t_tetri *tetri);
 t_grid	*solve_grid(t_tetri *tetri);
+int		backtracking(t_grid *grid, t_tetri *tetri);
+void	place_piece(t_tetri *tetri, t_grid *grid, int x, int y, char c);
+int		choose_place_grid(t_tetri *tetri, t_grid *grid, int x, int y);
+t_point	*new_point(int x, int y);
 
 /*
-** free_tetri :
+** Extra functions :
 */
-void	free_all(t_tetri *test);
 t_tetri	*free_tetri(t_tetri *tetri);
+t_tetri	*new_tetri(t_tetri *tetri, char **pos, int w, int h, char alpha);
+void	free_all(t_tetri *test);
 
 #endif
