@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   grid.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfauvell <cfauvell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/11 13:11:00 by psentilh          #+#    #+#             */
-/*   Updated: 2019/01/09 17:39:40 by psentilh         ###   ########.fr       */
+/*   Updated: 2019/01/11 13:13:13 by cfauvell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ t_grid	*init_grid(int size)// peut-etre à simplifier avec memset
 	i = 0;
 	grid = (t_grid *)ft_memalloc(sizeof(t_grid));
 	grid->size = size;
-	grid->tab = (char **)ft_memalloc(sizeof(char *) * size);
+	grid->tab = (char **)ft_memalloc(sizeof(char *) * (size + 1));
 	while (i < size)
 	{
 		grid->tab[i] = ft_strnew(size);

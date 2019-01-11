@@ -3,18 +3,16 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cfauvell <cfauvell@student.42.fr>          +#+  +:+       +#+         #
+#    By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/28 13:07:43 by psentilh          #+#    #+#              #
-#    Updated: 2019/01/10 18:38:47 by cfauvell         ###   ########.fr        #
+#    Updated: 2019/01/11 15:48:36 by psentilh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fillit
 
-SHELL = /bin/zsh
-
-LIB= ./libft/libft.a
+LIB = ./libft/libft.a
 
 CC = gcc
 
@@ -29,7 +27,9 @@ SRCS =	main.c\
 		grid.c\
 		free_tetri.c\
 
-OBJS = $(patsubst %.c, %.o, $(SRCS))
+OBJS= $(patsubst %.c,$(DIR_OBJS)%.o,$(SRCS))
+
+DIR_OBJS= objs/
 
 HEADERS = -I fillit.h
 
@@ -37,16 +37,21 @@ HEADERS = -I fillit.h
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	@$(CC) $(FLAGS) $(HEADERS) -c $(SRCS) 
-	@echo "Compiling in progress $<..."
 	@$(CC) $(FLAGS) $(OBJS) $(LIB) -o $(NAME)
+	@echo "\033[31m\033[1mCreating $(NAME)...\033[0m"
+
+$(DIR_OBJS)%.o: %.c
+	@mkdir -p $(DIR_OBJS)
+	@$(CC) $(FLAGS) -c $< -o $@ $(HEADERS)
+	@echo "\033[34mCompiling $<...\033[0m"
 
 clean:
-	@rm -rf $(OBJS)
-	@echo "making $(OBJS) disapear"
+	@/bin/rm -rf $(DIR_OBJS)
+	@echo "\033[35mCleaning $(DIR_OBJS)...\033[0m"
 
 fclean: clean
-	@rm -rf $(NAME)
+	@/bin/rm -rf $(NAME)
+	@echo "\033[32mCleaning $(NAME)...\033[0m"
 
 re: fclean all
 

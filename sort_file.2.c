@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort_file.2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfauvell <cfauvell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 21:00:54 by psentilh          #+#    #+#             */
-/*   Updated: 2019/01/10 18:14:22 by psentilh         ###   ########.fr       */
+/*   Updated: 2019/01/10 22:51:51 by cfauvell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ char	*clear_string2(char *tab)
 /*
 ** Convert the string in a char array
 */
+
 char	**tab_filling(char *tab)
 {
 	char **final;
@@ -94,7 +95,7 @@ char	**tab_filling(char *tab)
 }
 
 /*
-** Handle particular case who doesn't work normally
+** Handle particular tetriminos who don't work normally
 */
 
 int		sort_particular_case(char *tmp2, t_tetri *test, int i)

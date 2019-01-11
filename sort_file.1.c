@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sort_file.1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfauvell <cfauvell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 16:52:34 by cfauvell          #+#    #+#             */
-/*   Updated: 2019/01/10 18:14:16 by psentilh         ###   ########.fr       */
+/*   Updated: 2019/01/10 22:55:00 by cfauvell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ int		sort_tetri(char *str, t_tetri *test, int i)
 	free(tmp2);
 	return (1);
 }
-
 
 /*
 ** Convert the file to a structure table
