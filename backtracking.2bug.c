@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/13 22:43:39 by pommedepin        #+#    #+#             */
-/*   Updated: 2019/01/13 22:43:53 by pommedepin       ###   ########.fr       */
+/*   Created: 2018/12/07 14:20:29 by psentilh          #+#    #+#             */
+/*   Updated: 2019/01/13 22:41:22 by pommedepin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void		place_piece(t_tetri *tetri, t_grid *grid, int x, int y, char c)
 	ft_putchar('\n');
 }
 
-int				new_pos(t_grid *grid, t_tetri *tetri, int x, int y)
+int				try_pos(t_grid *grid, t_tetri *tetri, int x, int y)
 {
 	int ret;
 
@@ -97,7 +97,7 @@ int				new_pos(t_grid *grid, t_tetri *tetri, int x, int y)
 		x = 0;
 		while (x < (grid->size - tetri->w + 1))
 		{
-			printf("NP index = %d\n", tetri->index);
+			printf("TP index = %d\n", tetri->index);
 			if ((ret = choose_place_grid(tetri, grid, x, y)) != SUCCESS)
 				x++;
 			else
@@ -108,6 +108,54 @@ int				new_pos(t_grid *grid, t_tetri *tetri, int x, int y)
 	return (FAILURE);
 }
 
+t_point				*new_pos(t_grid *grid, t_tetri *tetri, t_point *point)
+{
+	int ret;
+
+	ret = 0;
+	while (point->y < (grid->size - tetri->h + 1))
+	{
+		point->x = 0;
+		while (point->x < (grid->size - tetri->w + 1))
+		{
+			printf("NP index = %d\n", tetri->index);
+			if ((ret = choose_place_grid(tetri, grid, point->x, point->y)) != SUCCESS)
+				point->x++;
+			else
+				return (point);
+		}
+		point->y++;
+	}
+	point->x = -2;
+	//point->y = -2;
+	return (point);
+}
+
+void		tetri_rm(t_grid *grid, t_tetri *tetri)
+{
+	int i;
+	int j;
+
+	j = 0;
+	while (j < grid->size)
+	{
+		i = 0;
+		while (i < grid->size)
+		{
+			if (grid->tab[j][i] == tetri->alpha)
+			{
+				grid->tab[j][i] = '.';
+				printf("RM j = %d & i = %d\n", j, i);
+			}
+			i++;
+		}
+		j++;
+	}
+	printf("\nGrille tetri_rm :\n");
+	ft_print_words_tables(grid->tab);
+	ft_putchar('\n');
+	
+}
 /*
 **si il n est pas placable, je trouve une autre position
 **sinon (donc si il est placable), je le place et je reinitilise les coordonnees a 0
@@ -116,27 +164,50 @@ int				new_pos(t_grid *grid, t_tetri *tetri, int x, int y)
 */
 int				backtracking(t_grid *grid, t_tetri *tetri, int x, int y)
 {
-	int index;
-	int ret;
+	int		index;
+	int		ret;
+	t_point *point;
 
 	ret = 0;
 	index = 0;
+	point = NULL;
 	if (tetri[index].piece == NULL)
 			return (SUCCESS);
-	if ((ret = new_pos(grid, &tetri[index++], x, y)) == FAILURE)
+	//peut-etre refaire en sorte que try_pos et New_pos soient les mêmes fonctions avec le même retour pour que try_pos soit un jour égal à SUCCESS et sortir de la loop infinie
+	if ((ret = try_pos(grid, &tetri[index++], x, y)) == FAILURE)
 	{
-		printf("FAIL\n\n");
-		return (FAILURE);
-	}
-	while ((ret = backtracking(grid, &tetri[index], x, y)) == FAILURE && index > 0)
-	{
-		/*printf("ERASE\n\n");
-		// trouver une maniere de recuperer les coordonnees x/y de choose_place pour effacer le bon tetri (avec new_point) OU creer une focntion tetri_rm qui lit la grille en reperant le char du tetri à effacer (et donc direct les bonnes coordonees)
-		place_piece(&tetri[--index], grid, x, y, '.');
-		printf("index BT = %d\n", index);
-		new_pos(grid, &tetri[index], x, y);
-		if (index > 0)*/
+		printf("\nERASE\n");
+		index--;
+		tetri_rm(grid, &tetri[--index]);
+		y += 2;
+		printf("1 erase x = %d & y = %d\n", x, y);
+		if ((point = new_pos(grid, &tetri[index], new_point(x, y))) != NULL)
+		{
+			printf("next index\n");
+			try_pos(grid, &tetri[++index], x, y);
+		}
+		//try_pos(grid, &tetri[++index], x, y);
+		printf("index BT = %d\n", tetri->index);
+		if (tetri->index < 0)
 			return (FAILURE);
+		/*else if (tetri[index].piece == NULL)
+		{
+			printf("SUCCES\n\n");
+			return (SUCCESS);
+		}*/
+	}
+	printf("coucou\n");
+	while ((ret = backtracking(grid, &tetri[index], x, y)) == FAILURE)
+	{
+		printf("ERROR\n\n");
+		// trouver une maniere de recuperer les coordonnees x/y de choose_place pour effacer le bon tetri (avec new_point) OU creer une focntion tetri_rm qui lit la grille en reperant le char du tetri à effacer (et donc direct les bonnes coordonees)
+		//place_piece(&tetri[--index], grid, x, y, '.');
+		/*tetri_rm(grid, &tetri[--index]);
+		printf("index BT = %d\n", index);
+		new_pos(grid, &tetri[index], ++x, y);
+		if (index < 0)
+			return (FAILURE);*/
+		return (FAILURE);
 	}
 	printf("ici\n");
 	return (SUCCESS);
