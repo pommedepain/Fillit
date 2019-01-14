@@ -6,7 +6,7 @@
 /*   By: cfauvell <cfauvell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 21:00:54 by psentilh          #+#    #+#             */
-/*   Updated: 2019/01/10 22:51:51 by cfauvell         ###   ########.fr       */
+/*   Updated: 2019/01/14 16:07:15 by cfauvell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,16 @@ char	*clear_string1(char *tab)
 	int		i;
 	int		y;
 
-
 	i = 0;
 	y = 0;
 	if (!(clear = (char *)malloc(sizeof(char) * 17)))
 		return (NULL);
-	while (tab[i])
+	while (i < 20)
 	{
 		if (tab[i] == '\n')
 			i++;
 		clear[y++] = tab[i++];
 	}
-	clear[y] = '\0';
 	free(tab);
 	return (clear);
 }
@@ -44,7 +42,7 @@ char	*clear_string1(char *tab)
 */
 
 char	*clear_string2(char *tab)
-{	
+{
 	char	*clear;
 	int		i;
 	int		y;
@@ -53,9 +51,9 @@ char	*clear_string2(char *tab)
 	y = 0;
 	if (!(clear = (char *)malloc(sizeof(char) * 17)))
 		return (NULL);
-	while(tab[i] != '#')
+	while (tab[i] != '#' && tab[i])
 		i++;
-	while(tab[i])
+	while (tab[i])
 		clear[y++] = tab[i++];
 	while (y < 16)
 		clear[y++] = '.';
@@ -70,10 +68,10 @@ char	*clear_string2(char *tab)
 
 char	**tab_filling(char *tab)
 {
-	char **final;
-	int i;
-	int y;
-	int k;
+	char	**final;
+	int		i;
+	int		y;
+	int		k;
 
 	i = 0;
 	y = 0;
@@ -83,11 +81,11 @@ char	**tab_filling(char *tab)
 	final[4] = 0;
 	while (i != 4)
 	{
-		if(!(final[i] = (char *)malloc(sizeof(char) * 5)))
+		if (!(final[i] = (char *)malloc(sizeof(char) * 5)))
 			return (NULL);
 		final[i][4] = 0;
 		y = 0;
-		while(y != 4)
+		while (y != 4)
 			final[i][y++] = tab[k++];
 		i++;
 	}
@@ -101,20 +99,18 @@ char	**tab_filling(char *tab)
 int		sort_particular_case(char *tmp2, t_tetri *test, int i)
 {
 	if (ft_strstr(tmp2, "#..###"))
-	{
-		test[i].piece = particular_T();
-		return (1);
-	}
+		test[i].piece = particular_t1();
 	else if (ft_strstr(tmp2, "#.###"))
-	{
-		test[i].piece = particular_L();
-		return (1);
-	}
+		test[i].piece = particular_l();
 	else if (ft_strstr(tmp2, "#..##...#"))
-	{
-		test[i].piece = particular_T2();
-		return (1);
-	}
+		test[i].piece = particular_t2();
+	else if (ft_strstr(tmp2, "#...#..##"))
+		test[i].piece = particular_l2();
+	else if (ft_strstr(tmp2, "##.##"))
+		test[i].piece = particular_s();
+	else if (ft_strstr(tmp2, "#..##..#"))
+		test[i].piece = particular_s2();
 	else
 		return (0);
+	return (1);
 }

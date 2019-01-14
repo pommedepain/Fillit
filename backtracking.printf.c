@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   backtracking.2bug.c                                :+:      :+:    :+:   */
+/*   backtracking.printf.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 14:20:29 by psentilh          #+#    #+#             */
-/*   Updated: 2019/01/14 16:19:06 by psentilh         ###   ########.fr       */
+/*   Updated: 2019/01/14 16:31:44 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,16 @@ int		choose_place_grid(t_tetri *tetri, t_grid *grid, int x, int y)
 		j = 0;
 		while (j < tetri->h)
 		{
+			printf("CP char tetri = %c & tab = %c\n", tetri->piece[j][i], grid->tab[y + j][x + i]);
 			if (tetri->piece[j][i] == '#' && grid->tab[y + j][x + i] != '.')
 				return (ERROR);
 			j++;
 		}
 		i++;
 	}
+	printf("CP x = %d & y = %d\n", x, y);
 	place_piece(tetri, grid, x, y, tetri->alpha);
+	//place_piece(tetri, grid, new_point(x, y), tetri->alpha);
 	return (SUCCESS);
 }
 
@@ -79,9 +82,12 @@ void		place_piece(t_tetri *tetri, t_grid *grid, int x, int y, char c)
 		}
 		i++;
 	}
+	printf("\nGrille place_piece :\n");
+	ft_print_words_tables(grid->tab);
+	ft_putchar('\n');
 }
 
-int				try_pos(t_grid *grid, t_tetri *tetri, t_point *point)
+int				try_pos(t_grid *grid, t_tetri *tetri, t_point *point/*int x, int y*/)
 {
 	int ret;
 
@@ -91,6 +97,7 @@ int				try_pos(t_grid *grid, t_tetri *tetri, t_point *point)
 		point->x = 0;
 		while (point->x < (grid->size - tetri->w + 1))
 		{
+			printf("TP index = %d\n", tetri->index);
 			if ((ret = choose_place_grid(tetri, grid, point->x, point->y)) != SUCCESS)
 				point->x++;
 			else
@@ -111,14 +118,17 @@ t_point		*new_pos(t_grid *grid, t_tetri *tetri, t_point *point)
 		point->x = 0;
 		while (point->x < (grid->size - tetri->w + 1))
 		{
+			printf("NP index = %d\n", tetri->index);
 			if ((ret = choose_place_grid(tetri, grid, point->x, point->y)) != SUCCESS)
 				point->x++;
 			else
 				return (point);
+				//return (SUCCESS);
 		}
 		point->y++;
 	}
 	point = NULL;
+	//return (FAILURE);
 	return (point);
 }
 
@@ -136,11 +146,15 @@ void		tetri_rm(t_grid *grid, t_tetri *tetri)
 			if (grid->tab[j][i] == tetri->alpha)
 			{
 				grid->tab[j][i] = '.';
+				printf("RM j = %d & i = %d\n", j, i);
 			}
 			i++;
 		}
 		j++;
 	}
+	printf("\nGrille tetri_rm :\n");
+	ft_print_words_tables(grid->tab);
+	//ft_putchar('\n');
 	
 }
 /*
@@ -160,16 +174,25 @@ int				backtracking(t_grid *grid, t_tetri *tetri, int x, int y)
 	np = NULL;
 	if (tetri[index].piece == NULL)
 			return (SUCCESS);
+	//peut-etre refaire en sorte que try_pos et New_pos soient les mêmes fonctions avec le même retour pour que try_pos soit un jour égal à SUCCESS et sortir de la loop infinie
 	while ((try_pos(grid, &tetri[index], tp = new_point(x, y))) == FAILURE)
 	{
+		printf("\nERASE\n");
 		tetri_rm(grid, &tetri[--index]);
+		printf("1 erase tp.x = %d & tp.y = %d\n\n", tp->x, tp->y);
+		// vaudra toujours SUCCESS car il arrivera a poser le tetri mais trouver comment lui dire que s'il ne peut pas poser le suivant, tenter une autre pos pour l'actuel.
 		if ((np = new_pos(grid, &tetri[index], new_point(x, ++y))) != NULL)
 		{
 			y = 0;
+			printf("x = %d & y = %d\n", x, y);
+			printf("tp->x = %d & tp->y = %d\n", tp->x, tp->y);
 			if ((try_pos(grid, &tetri[++index], new_point(x, y))) == FAILURE)
 			{
+				printf("index BT = %d\n", tetri->index);
+				printf("\nERASE 2\n");
 				tetri_rm(grid, &tetri[--index]);
 				np->y++;
+				printf("np->y = %d\n", np->y);
 				if (try_pos(grid, &tetri[index++], np) == FAILURE)
 					return (FAILURE);
 				y = 0;
@@ -183,8 +206,13 @@ int				backtracking(t_grid *grid, t_tetri *tetri, int x, int y)
 			return (FAILURE);
 	}
 	index++;
+	printf("coucou\n");
 	while ((backtracking(grid, &tetri[index], x, y)) == FAILURE)
+	{
+		printf("ERROR\n\n");
 		return (FAILURE);
+	}
+	printf("ici\n");
 	return (SUCCESS);
 }
 
@@ -209,9 +237,11 @@ t_grid	*solve_grid(t_tetri *tetri)
 	grid = init_grid(size);
 	while ((ret = backtracking(grid, tetri, x, y)) == FAILURE)
 	{
+		printf("size++\n");
 		size++;
 		free_grid(grid);
 		grid = init_grid(size);
-	}
+	} 
+	printf("\nFin :\n");
 	return (grid);
 }

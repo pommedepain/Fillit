@@ -54,6 +54,7 @@ int		ft_check_pattern(char **tab, int y, int x, int count);
 int		check_tetri(char **tab);
 void	min_max(t_tetri *tetri, t_point *min, t_point *max, int index);
 t_tetri	*tetri_h_w(t_tetri *tetri);
+char	**particular_s2(void);
 
 /*
 ** Sort file 1 :
@@ -61,6 +62,8 @@ t_tetri	*tetri_h_w(t_tetri *tetri);
 
 char	*read_all_file(int fd, char *buff);
 int		sort_tetri(char *str, t_tetri *test, int i);
+int		sort_tetri1(char *str, t_tetri *test, int index);
+t_tetri	*for_one_tetri(t_tetri *test, char *final, int index);
 t_tetri	*put_in_struct(t_tetri *test, int fd, int index);
 
 /*
@@ -76,9 +79,11 @@ int		sort_particular_case(char *tmp2, t_tetri *test, int i);
 ** Sort file 3 :
 */
 
-char	**particular_T(void);
-char	**particular_T2(void);
-char	**particular_L(void);
+char	**particular_t1(void);
+char	**particular_t2(void);
+char	**particular_l(void);
+char	**particular_l2(void);
+char	**particular_s(void);
 
 /*
 ** Grid :
@@ -97,8 +102,9 @@ int		tetri_count(t_tetri *tetri);
 t_point	*new_point(int x, int y);
 int		choose_place_grid(t_tetri *tetri, t_grid *grid, int x, int y);
 void	place_piece(t_tetri *tetri, t_grid *grid, int x, int y, char c);
-int		try_pos(t_grid *grid, t_tetri *tetri, int x, int y);
+int		try_pos(t_grid *grid, t_tetri *tetri, t_point *point/*int x, int y*/);
 t_point	*new_pos(t_grid *grid, t_tetri *tetri, t_point *point);
+//int		new_pos(t_grid *grid, t_tetri *tetri, t_point *point);
 //int		new_pos(t_grid *grid, t_tetri *tetri, int x, int y);
 int		backtracking(t_grid *grid, t_tetri *tetri, int x, int y);
 t_grid	*solve_grid(t_tetri *tetri);

@@ -6,18 +6,18 @@
 /*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 16:57:59 by cfauvell          #+#    #+#             */
-/*   Updated: 2019/01/10 18:14:27 by psentilh         ###   ########.fr       */
+/*   Updated: 2019/01/14 16:23:24 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
 /*
-** Handle the 3 tetriminos who don't work
+** Handle the 5 tetriminos who don't work
 ** normally
 */
 
-char	**particular_T(void)
+char	**particular_t1(void)
 {
 	char *clear;
 	char **final;
@@ -27,7 +27,7 @@ char	**particular_T(void)
 	return (final);
 }
 
-char	**particular_T2(void)
+char	**particular_t2(void)
 {
 	char *clear;
 	char **final;
@@ -37,12 +37,32 @@ char	**particular_T2(void)
 	return (final);
 }
 
-char	**particular_L(void)
+char	**particular_l(void)
 {
 	char *clear;
 	char **final;
 
 	clear = "..#.###.........";
+	final = tab_filling(clear);
+	return (final);
+}
+
+char	**particular_s(void)
+{
+	char *clear;
+	char **final;
+
+	clear = ".##.##..........";
+	final = tab_filling(clear);
+	return (final);
+}
+
+char	**particular_s2(void)
+{
+	char *clear;
+	char **final;
+
+	clear = ".#..##..#.......";
 	final = tab_filling(clear);
 	return (final);
 }

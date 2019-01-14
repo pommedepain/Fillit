@@ -6,7 +6,7 @@
 /*   By: cfauvell <cfauvell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 16:52:34 by cfauvell          #+#    #+#             */
-/*   Updated: 2019/01/10 22:55:00 by cfauvell         ###   ########.fr       */
+/*   Updated: 2019/01/14 16:17:21 by cfauvell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,8 @@ char	*read_all_file(int fd, char *buff)
 	return (buff);
 }
 
-
 /*
-** Divide the string between the different tetriminos and 
+** Divide the string between the different tetriminos and
 ** put it in a char array
 */
 
@@ -68,6 +67,35 @@ int		sort_tetri(char *str, t_tetri *test, int i)
 	return (1);
 }
 
+int		sort_tetri1(char *str, t_tetri *test, int index)
+{
+	str = clear_string1(str);
+	if (sort_particular_case(str, test, index) == 1)
+	{
+		free(str);
+		return (1);
+	}
+	str = clear_string2(str);
+	if (!(test[0].piece = tab_filling(str)))
+		return (-1);
+	free(str);
+	return (1);
+}
+
+t_tetri	*for_one_tetri(t_tetri *test, char *final, int index)
+{
+	if (!(sort_tetri1(final, test, index)))
+		return (NULL);
+	if (!(check_tetri(test[0].piece)))
+	{
+		return (NULL);
+	}
+	test[0].index = 1;
+	test[0].alpha = 'A';
+	test[1].piece = NULL;
+	return (test);
+}
+
 /*
 ** Convert the file to a structure table
 ** (if valid)
@@ -78,19 +106,29 @@ t_tetri	*put_in_struct(t_tetri *test, int fd, int index)
 	static char	*final;
 	int			len;
 
-	if (!(final = ft_strnew(0)))
-		return (NULL);
-	if (!(final = read_all_file(fd, final)))
+	if (!(final = ft_strnew(0)) || !(final = read_all_file(fd, final)))
 		return (NULL);
 	len = (ft_strlen(final) + 1) / 21;
 	if (!(test = (t_tetri *)malloc(sizeof(t_tetri) * (len + 1))))
 		return (NULL);
+	if (len == 1)
+	{
+		if (!(sort_tetri1(final, test, index)))
+			return (NULL);
+		if (!(check_tetri(test[0].piece)))
+		{
+			free_all(test);
+			return (NULL);
+		}
+		test[0].index = 1;
+		test[0].alpha = 'A';
+		test[1].piece = NULL;
+		return (test);
+	}
 	while (len--)
 	{
 		if (!(sort_tetri(final, test, index)))
-		{
 			return (NULL);
-		}
 		if (!(check_tetri(test[index++].piece)))
 		{
 			free_all(test);

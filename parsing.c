@@ -6,7 +6,7 @@
 /*   By: cfauvell <cfauvell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 16:49:49 by cfauvell          #+#    #+#             */
-/*   Updated: 2019/01/10 18:36:29 by cfauvell         ###   ########.fr       */
+/*   Updated: 2019/01/14 16:15:23 by cfauvell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,4 +109,14 @@ t_tetri	*tetri_h_w(t_tetri *tetri)
 		index--;
 	}
 	return (tetri);
+}
+
+char	**particular_l2(void)
+{
+	char *clear;
+	char **final;
+
+	clear = ".#...#..##......";
+	final = tab_filling(clear);
+	return (final);
 }
