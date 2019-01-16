@@ -6,7 +6,7 @@
 /*   By: cfauvell <cfauvell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 21:00:54 by psentilh          #+#    #+#             */
-/*   Updated: 2019/01/14 16:07:15 by cfauvell         ###   ########.fr       */
+/*   Updated: 2019/01/14 17:20:06 by cfauvell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ char	*clear_string1(char *tab)
 	i = 0;
 	y = 0;
 	if (!(clear = (char *)malloc(sizeof(char) * 17)))
+		return (NULL);
+	if (ft_strlen(tab) > 20)
 		return (NULL);
 	while (i < 20)
 	{
@@ -98,19 +100,35 @@ char	**tab_filling(char *tab)
 
 int		sort_particular_case(char *tmp2, t_tetri *test, int i)
 {
-	if (ft_strstr(tmp2, "#..###"))
+	if (ft_strstr(tmp2, "#..###") && hash_count(tmp2) == 4)
 		test[i].piece = particular_t1();
-	else if (ft_strstr(tmp2, "#.###"))
+	else if (ft_strstr(tmp2, "#.###") && hash_count(tmp2) == 4)
 		test[i].piece = particular_l();
-	else if (ft_strstr(tmp2, "#..##...#"))
+	else if (ft_strstr(tmp2, "#..##...#") && hash_count(tmp2) == 4)
 		test[i].piece = particular_t2();
-	else if (ft_strstr(tmp2, "#...#..##"))
+	else if (ft_strstr(tmp2, "#...#..##") && hash_count(tmp2) == 4)
 		test[i].piece = particular_l2();
-	else if (ft_strstr(tmp2, "##.##"))
+	else if (ft_strstr(tmp2, "##.##") && hash_count(tmp2) == 4)
 		test[i].piece = particular_s();
-	else if (ft_strstr(tmp2, "#..##..#"))
+	else if (ft_strstr(tmp2, "#..##..#") && hash_count(tmp2) == 4)
 		test[i].piece = particular_s2();
 	else
 		return (0);
 	return (1);
+}
+
+int		hash_count(char *tab)
+{
+	int i;
+	int hash;
+
+	i = 0;
+	hash = 0;
+	while (tab[i])
+	{
+		if (tab[i] == '#')
+			hash++;
+		i++;
+	}
+	return (hash);
 }

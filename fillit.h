@@ -74,6 +74,7 @@ char	*clear_string1(char *tab);
 char	*clear_string2(char *tab);
 char	**tab_filling(char *tab);
 int		sort_particular_case(char *tmp2, t_tetri *test, int i);
+int		hash_count(char *tab);
 
 /*
 ** Sort file 3 :
@@ -101,13 +102,17 @@ int		tetri_count(t_tetri *tetri);
 
 t_point	*new_point(int x, int y);
 int		choose_place_grid(t_tetri *tetri, t_grid *grid, int x, int y);
+//t_point		*choose_place_grid(t_tetri *tetri, t_grid *grid, int x, int y);
 void	place_piece(t_tetri *tetri, t_grid *grid, int x, int y, char c);
+//void	place_piece(t_tetri *tetri, t_grid *grid, t_point *point, char c);
 int		try_pos(t_grid *grid, t_tetri *tetri, t_point *point/*int x, int y*/);
 t_point	*new_pos(t_grid *grid, t_tetri *tetri, t_point *point);
 //int		new_pos(t_grid *grid, t_tetri *tetri, t_point *point);
 //int		new_pos(t_grid *grid, t_tetri *tetri, int x, int y);
 int		backtracking(t_grid *grid, t_tetri *tetri, int x, int y);
+//int			backtracking(t_grid *grid, t_tetri *tetri, t_point *point);
 t_grid	*solve_grid(t_tetri *tetri);
+void	tetri_rm(t_grid *grid, t_tetri *tetri);
 
 /*
 ** free_tetri :

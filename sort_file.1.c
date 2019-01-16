@@ -6,7 +6,7 @@
 /*   By: cfauvell <cfauvell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 16:52:34 by cfauvell          #+#    #+#             */
-/*   Updated: 2019/01/14 16:17:21 by cfauvell         ###   ########.fr       */
+/*   Updated: 2019/01/14 17:29:07 by cfauvell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ int		sort_tetri(char *str, t_tetri *test, int i)
 
 	if ((tmp = ft_strstr(str, "\n\n")) != NULL)
 		*tmp = '\0';
+	if (ft_strlen(str) != 19)
+		return (0);
 	tmp2 = ft_strdup(str);
 	tmp2 = clear_string1(tmp2);
 	if (sort_particular_case(tmp2, test, i) == 1)
@@ -61,7 +63,7 @@ int		sort_tetri(char *str, t_tetri *test, int i)
 	}
 	tmp2 = clear_string2(tmp2);
 	if (!(test[i].piece = tab_filling(tmp2)))
-		return (-1);
+		return (0);
 	ft_memmove(str, tmp + 2, ft_strlen(tmp + 2));
 	free(tmp2);
 	return (1);
@@ -88,11 +90,26 @@ t_tetri	*for_one_tetri(t_tetri *test, char *final, int index)
 		return (NULL);
 	if (!(check_tetri(test[0].piece)))
 	{
+		free_all(test);
 		return (NULL);
 	}
 	test[0].index = 1;
 	test[0].alpha = 'A';
 	test[1].piece = NULL;
+	return (test);
+}
+
+t_tetri	*for_multi_tetri(t_tetri *test, char *final, int index)
+{
+	if (!(sort_tetri(final, test, index)))
+		return (NULL);
+	if (!(check_tetri(test[index].piece)))
+	{
+		free_all(test);
+		return (NULL);
+	}
+	test[index].index = index + 1;
+	test[index].alpha = 65 + index;
 	return (test);
 }
 
@@ -106,36 +123,23 @@ t_tetri	*put_in_struct(t_tetri *test, int fd, int index)
 	static char	*final;
 	int			len;
 
-	if (!(final = ft_strnew(0)) || !(final = read_all_file(fd, final)))
+	if (!(final = ft_strnew(0)))
+		return (NULL);
+	if (!(final = read_all_file(fd, final)))
 		return (NULL);
 	len = (ft_strlen(final) + 1) / 21;
 	if (!(test = (t_tetri *)malloc(sizeof(t_tetri) * (len + 1))))
 		return (NULL);
 	if (len == 1)
 	{
-		if (!(sort_tetri1(final, test, index)))
-			return (NULL);
-		if (!(check_tetri(test[0].piece)))
-		{
-			free_all(test);
-			return (NULL);
-		}
-		test[0].index = 1;
-		test[0].alpha = 'A';
-		test[1].piece = NULL;
+		test = for_one_tetri(test, final, index);
 		return (test);
 	}
 	while (len--)
 	{
-		if (!(sort_tetri(final, test, index)))
+		if (!(test = for_multi_tetri(test, final, index)))
 			return (NULL);
-		if (!(check_tetri(test[index++].piece)))
-		{
-			free_all(test);
-			return (NULL);
-		}
-		test[index - 1].index = index;
-		test[index - 1].alpha = 64 + index;
+		index++;
 	}
 	test[index].piece = NULL;
 	return (test);
