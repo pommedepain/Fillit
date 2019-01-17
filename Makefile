@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+         #
+#    By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/28 13:07:43 by psentilh          #+#    #+#              #
-#    Updated: 2019/01/16 18:35:24 by psentilh         ###   ########.fr        #
+#    Updated: 2019/01/17 11:42:34 by pommedepin       ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,7 +23,8 @@ SRCS =	main.c\
 		sort_file.1.c\
 		sort_file.2.c\
 		sort_file.3.c\
-		backtracking.printf.c\
+		FUCK_BACKTRACKING.c\
+		backtracking.c\
 		grid.c\
 		free_tetri.c\
 

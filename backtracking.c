@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   backtracking.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 14:20:29 by psentilh          #+#    #+#             */
-/*   Updated: 2019/01/16 16:51:56 by psentilh         ###   ########.fr       */
+/*   Updated: 2019/01/17 15:58:09 by pommedepin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ t_point	*new_point(int x, int y)
 	t_point *point;
 
 	point = (t_point *)malloc(sizeof(t_point));
-	point->x = -1;
-	point->y = -1;
+	point->x = 0;
+	point->y = 0;
 	point->x = x;
 	point->y = y;
 	return (point);
@@ -36,7 +36,7 @@ t_point	*new_point(int x, int y)
 ** Sinon, il les garde en mémoire et part dans la fonction place_piece.
 */
 
-int		choose_place_grid(t_tetri *tetri, t_grid *grid, int x, int y)
+/*int		choose_place_grid(t_tetri *tetri, t_grid *grid, int x, int y)
 {
 	int i;
 	int j;
@@ -55,14 +55,14 @@ int		choose_place_grid(t_tetri *tetri, t_grid *grid, int x, int y)
 	}
 	place_piece(tetri, grid, x, y, tetri->alpha);
 	return (SUCCESS);
-}
+}*/
 
 /*
 ** Parcourt la grile sur le même principe que choose_place mais inscrit le tetri 
 ** avec les coordonnées envoyées à l'aide d'alpha.
 */
 
-void		place_piece(t_tetri *tetri, t_grid *grid, int x, int y, char c)
+/*void		place_piece(t_tetri *tetri, t_grid *grid, int x, int y, char c)
 {
 	int i;
 	int j;
@@ -79,9 +79,9 @@ void		place_piece(t_tetri *tetri, t_grid *grid, int x, int y, char c)
 		}
 		i++;
 	}
-}
+}*/
 
-int				try_pos(t_grid *grid, t_tetri *tetri, t_point *point)
+/*int				try_pos(t_grid *grid, t_tetri *tetri, t_point *point)
 {
 	int ret;
 
@@ -120,7 +120,7 @@ t_point		*new_pos(t_grid *grid, t_tetri *tetri, t_point *point)
 	}
 	point = NULL;
 	return (point);
-}
+}*/
 
 void		tetri_rm(t_grid *grid, t_tetri *tetri)
 {
@@ -141,7 +141,6 @@ void		tetri_rm(t_grid *grid, t_tetri *tetri)
 		}
 		j++;
 	}
-	
 }
 /*
 **si il n est pas placable, je trouve une autre position
@@ -149,7 +148,7 @@ void		tetri_rm(t_grid *grid, t_tetri *tetri)
 **relance foncion avec coordonnees 0 et tetri[index++]
 **Si backtracking renvoit erreur, enleve le tetri actuel et relance la fonction avec position suivante et tetri actuel.
 */
-int				backtracking(t_grid *grid, t_tetri *tetri, int x, int y)
+/*int				backtracking(t_grid *grid, t_tetri *tetri, int x, int y)
 {
 	int		index;
 	t_point *tp;
@@ -186,14 +185,14 @@ int				backtracking(t_grid *grid, t_tetri *tetri, int x, int y)
 	while ((backtracking(grid, &tetri[index], x, y)) == FAILURE)
 		return (FAILURE);
 	return (SUCCESS);
-}
+}*/
 
 /*
 ** Initilise une grille remplie de '.' en calculant la taille minimale possible basée sur le nbre de tetri dans la struct.
 ** Si le backtracking ne peut être résoud avec cette taille, l'agrandit jusqu'à résolution.
 */
 
-t_grid	*solve_grid(t_tetri *tetri)
+/*t_grid	*solve_grid(t_tetri *tetri)
 {
 	t_grid	*grid;
 	int		size;
@@ -214,4 +213,4 @@ t_grid	*solve_grid(t_tetri *tetri)
 		grid = init_grid(size);
 	}
 	return (grid);
-}
+}*/

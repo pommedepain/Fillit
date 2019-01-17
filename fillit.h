@@ -101,16 +101,11 @@ int		tetri_count(t_tetri *tetri);
 */
 
 t_point	*new_point(int x, int y);
-int		choose_place_grid(t_tetri *tetri, t_grid *grid, int x, int y);
-//t_point		*choose_place_grid(t_tetri *tetri, t_grid *grid, int x, int y);
-void	place_piece(t_tetri *tetri, t_grid *grid, int x, int y, char c);
-//void	place_piece(t_tetri *tetri, t_grid *grid, t_point *point, char c);
-int		try_pos(t_grid *grid, t_tetri *tetri, t_point *point/*int x, int y*/);
-t_point	*new_pos(t_grid *grid, t_tetri *tetri, t_point *point);
-//int		new_pos(t_grid *grid, t_tetri *tetri, t_point *point);
-//int		new_pos(t_grid *grid, t_tetri *tetri, int x, int y);
-int		backtracking(t_grid *grid, t_tetri *tetri, int x, int y);
-//int			backtracking(t_grid *grid, t_tetri *tetri, t_point *point);
+t_point	*choose_place_grid(t_tetri *tetri, t_grid *grid, t_point *point);
+t_grid	*place_piece(t_tetri *tetri, t_grid *grid, t_point *point, char c);
+int		try_pos(t_grid *grid, t_tetri *tetri, t_point *point);
+t_point	*new_pos(t_grid *grid, t_point *point);
+int		backtracking(t_grid *grid, t_tetri *tetri, t_point *np);
 t_grid	*solve_grid(t_tetri *tetri);
 void	tetri_rm(t_grid *grid, t_tetri *tetri);
 
