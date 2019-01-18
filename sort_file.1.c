@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   sort_file.1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfauvell <cfauvell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 16:52:34 by cfauvell          #+#    #+#             */
-/*   Updated: 2019/01/14 17:29:07 by cfauvell         ###   ########.fr       */
+/*   Updated: 2019/01/18 13:48:49 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
+// 1 fonction en trop à mettre dans extra_founctions
 
 /*
 ** Get the file to a string

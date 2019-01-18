@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   grid.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfauvell <cfauvell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/11 13:11:00 by psentilh          #+#    #+#             */
-/*   Updated: 2019/01/11 13:13:13 by cfauvell         ###   ########.fr       */
+/*   Updated: 2019/01/17 19:21:05 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
-#include <stdio.h>
 
-void	free_grid(t_grid *grid)
+void		free_grid(t_grid *grid)
 {
 	int i;
 
@@ -27,7 +26,7 @@ void	free_grid(t_grid *grid)
 	ft_memdel((void **)&grid);
 }
 
-void	print_grid(t_grid *grid)
+void		print_grid(t_grid *grid)
 {
 	int i;
 
@@ -41,11 +40,12 @@ void	print_grid(t_grid *grid)
 }
 
 /*
-** 
+** Initilize a grid
 */
-t_grid	*init_grid(int size)// peut-etre à simplifier avec memset
+
+t_grid		*init_grid(int size)
 {
-	t_grid	*grid; 
+	t_grid	*grid;
 	int		i;
 
 	i = 0;
@@ -58,25 +58,15 @@ t_grid	*init_grid(int size)// peut-etre à simplifier avec memset
 		ft_memset((void *)grid->tab[i], '.', grid->size);
 		i++;
 	}
-	//ft_print_words_tables(grid->tab);
 	return (grid);
 }
 
 /*
-** On décrémente alpha car quand il est envoyé dans la fonction, il est au max du nb de tetris
+** Count the number of tetris
 */
+
 int			tetri_count(t_tetri *tetri)
 {
-	/*int index;
-
-	index = 1;
-	while (tetri->alpha != 'A')
-	{
-		tetri->alpha--;
-		index++;
-	}
-	return(index);*/
-
 	int	i;
 
 	i = 0;

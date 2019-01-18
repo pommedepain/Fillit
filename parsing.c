@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfauvell <cfauvell@student.42.fr>          +#+  +:+       +#+        */
+/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 16:49:49 by cfauvell          #+#    #+#             */
-/*   Updated: 2019/01/14 16:15:23 by cfauvell         ###   ########.fr       */
+/*   Updated: 2019/01/18 16:28:25 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int		check_tetri(char **tab)
 	return (y == 4 && hash == 4 && count >= 6);
 }
 
+// Fait 27 lignes
 void	min_max(t_tetri *tetri, t_point *min, t_point *max, int index)
 {
 	int		i;
@@ -67,9 +68,8 @@ void	min_max(t_tetri *tetri, t_point *min, t_point *max, int index)
 	i = 0;
 	while (i < 4)
 	{
-		str = ft_strcat(str, tetri[index].piece[i]);
+		str = ft_strcat(str, tetri[index].piece[i++]);
 		str = ft_strcat(str, "\n");
-		i++;
 	}
 	i = 0;
 	while (i < 20)

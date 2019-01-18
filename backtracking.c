@@ -3,214 +3,147 @@
 /*                                                        :::      ::::::::   */
 /*   backtracking.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
+/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/07 14:20:29 by psentilh          #+#    #+#             */
-/*   Updated: 2019/01/17 15:58:09 by pommedepin       ###   ########.fr       */
+/*   Created: 2019/01/16 16:52:23 by psentilh          #+#    #+#             */
+/*   Updated: 2019/01/18 19:50:30 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
-#include <stdio.h>
 
-/*
-** Initialise un nouveau pointeur sur coordonnées.
-** Utilisé dans min_max et choose_place.
-*/
-
-t_point	*new_point(int x, int y)
+t_point		*new_pos(t_grid *grid, t_point *point)
 {
-	t_point *point;
-
-	point = (t_point *)malloc(sizeof(t_point));
-	point->x = 0;
-	point->y = 0;
-	point->x = x;
-	point->y = y;
+	point->x += 1;
+	if (point->x > grid->size)
+	{
+		point->x = 0;
+		point->y += 1;
+		if (point->y > grid->size)
+		{
+			//free_point(&point);
+			point = NULL;
+			return (point);
+		}
+		return (point);
+	}
 	return (point);
 }
 
-/*
-** Fonction qui vérifie si aux coordonnées choisies, il n'y a pas déjà un tétri de placé.
-** Si c'est le cas, il renvoie 0 et cherche d'autres coordonnées. 
-** Sinon, il les garde en mémoire et part dans la fonction place_piece.
-*/
-
-/*int		choose_place_grid(t_tetri *tetri, t_grid *grid, int x, int y)
+t_point		*choose_place_grid(t_tetri *tetri, t_grid *grid, t_point *point)
 {
-	int i;
-	int j;
+	int x;
+	int y;
+	int nb_sharp;
 
-	i = 0;
-	while (i < tetri->w)
+	y = 0;
+	nb_sharp = 0;
+	while ((grid->size > y + point->y) && y < 4)
 	{
-		j = 0;
-		while (j < tetri->h)
+		x = 0;
+		while ((grid->size > x + point->x) && x < 4)
 		{
-			if (tetri->piece[j][i] == '#' && grid->tab[y + j][x + i] != '.')
-				return (ERROR);
-			j++;
-		}
-		i++;
-	}
-	place_piece(tetri, grid, x, y, tetri->alpha);
-	return (SUCCESS);
-}*/
-
-/*
-** Parcourt la grile sur le même principe que choose_place mais inscrit le tetri 
-** avec les coordonnées envoyées à l'aide d'alpha.
-*/
-
-/*void		place_piece(t_tetri *tetri, t_grid *grid, int x, int y, char c)
-{
-	int i;
-	int j;
-
-	i = 0;
-	while (i < tetri->w)
-	{
-		j = 0;
-		while (j < tetri->h)
-		{
-			if (tetri->piece[j][i] == '#')
-				grid->tab[y + j][x + i] = c;
-			j++;
-		}
-		i++;
-	}
-}*/
-
-/*int				try_pos(t_grid *grid, t_tetri *tetri, t_point *point)
-{
-	int ret;
-
-	ret = 0;
-	while (point->y < (grid->size - tetri->h + 1))
-	{
-		point->x = 0;
-		while (point->x < (grid->size - tetri->w + 1))
-		{
-			if ((ret = choose_place_grid(tetri, grid, point->x, point->y)) != SUCCESS)
-				point->x++;
-			else
-				return (SUCCESS);
-		}
-		point->y++;
-	}
-	return (FAILURE);
-}
-
-t_point		*new_pos(t_grid *grid, t_tetri *tetri, t_point *point)
-{
-	int ret;
-
-	ret = 0;
-	while (point->y < (grid->size - tetri->h + 1))
-	{
-		point->x = 0;
-		while (point->x < (grid->size - tetri->w + 1))
-		{
-			if ((ret = choose_place_grid(tetri, grid, point->x, point->y)) != SUCCESS)
-				point->x++;
-			else
+			if ((tetri->piece[y][x] == '#')
+				&& (grid->tab[point->y + y][point->x + x] == '.'))
+				nb_sharp++;
+			if (nb_sharp == 4)
 				return (point);
+			x++;
 		}
-		point->y++;
+		y++;
 	}
 	point = NULL;
 	return (point);
-}*/
-
-void		tetri_rm(t_grid *grid, t_tetri *tetri)
-{
-	int i;
-	int j;
-
-	j = 0;
-	while (j < grid->size)
-	{
-		i = 0;
-		while (i < grid->size)
-		{
-			if (grid->tab[j][i] == tetri->alpha)
-			{
-				grid->tab[j][i] = '.';
-			}
-			i++;
-		}
-		j++;
-	}
 }
-/*
-**si il n est pas placable, je trouve une autre position
-**sinon (donc si il est placable), je le place et je reinitilise les coordonnees a 0
-**relance foncion avec coordonnees 0 et tetri[index++]
-**Si backtracking renvoit erreur, enleve le tetri actuel et relance la fonction avec position suivante et tetri actuel.
-*/
-/*int				backtracking(t_grid *grid, t_tetri *tetri, int x, int y)
+
+t_grid		*place_piece(t_tetri *tetri, t_grid *grid, t_point *point, char c)
+{
+	int x;
+	int y;
+	int nb_sharp;
+
+	y = 0;
+	nb_sharp = 0;
+	while ((grid->size > y + point->y) && y < 4)
+	{
+		x = 0;
+		while ((grid->size > x + point->x) && x < 4)
+		{
+			if ((tetri->piece[y][x] == '#')
+				&& (grid->tab[point->y + y][point->x + x] == '.'))
+			{
+				grid->tab[point->y + y][point->x + x] = c;
+				nb_sharp++;
+			}
+			if (nb_sharp == 4)
+				return (grid);
+			x++;
+		}
+		y++;
+	}
+	grid = NULL;
+	return (grid);
+}
+
+// Verif la valeur de point.y a la fin pk c'est random et comment la changer
+// verif si j'arrive a utilise un seul t_point au lieu de 2 car peut-etre que c'est l'interaction des 2 qui nique out
+// verif si en creeant une liste chainee de chaque point cree qu je free a la fin ca regle tout
+int			backtracking(t_grid *grid, t_tetri *tetri, t_point *np)
 {
 	int		index;
-	t_point *tp;
-	t_point	*np;
+	t_point *point;
+	//static int count = 0;
 
 	index = 0;
-	tp = NULL;
-	np = NULL;
+	point = new_point(0, 0);
 	if (tetri[index].piece == NULL)
-			return (SUCCESS);
-	while ((try_pos(grid, &tetri[index], tp = new_point(x, y))) == FAILURE)
 	{
-		tetri_rm(grid, &tetri[--index]);
-		if ((np = new_pos(grid, &tetri[index], new_point(x, ++y))) != NULL)
-		{
-			y = 0;
-			if ((try_pos(grid, &tetri[++index], new_point(x, y))) == FAILURE)
-			{
-				tetri_rm(grid, &tetri[--index]);
-				np->y++;
-				if (try_pos(grid, &tetri[index++], np) == FAILURE)
-					return (FAILURE);
-				y = 0;
-			}
-			else
-				return (SUCCESS);
-		}
-		else
-			return (FAILURE);
-		if (tetri->index < 0)
-			return (FAILURE);
+		ft_memdel((void **)&np);
+		ft_memdel((void **)&point);
+		return (SUCCESS);
 	}
-	index++;
-	while ((backtracking(grid, &tetri[index], x, y)) == FAILURE)
+	if (np == NULL)
+	{
+		ft_memdel((void **)&np);
+		ft_memdel((void **)&point);
 		return (FAILURE);
+	}
+	if ((choose_place_grid(&tetri[index], grid, np)) == NULL)
+	{
+		ft_memdel((void **)&point);
+		return (backtracking(grid, &tetri[index], new_pos(grid, np)));
+	}
+	grid = place_piece(&tetri[index], grid, np, tetri[index].alpha);
+	if ((backtracking(grid, &tetri[index + 1], point)) == FAILURE)
+	{
+		ft_memdel((void **)&point);
+		tetri_rm(grid, &tetri[index]);
+		return (backtracking(grid, &tetri[index], new_pos(grid, np)));
+	}
+	/*count++;
+	if (count != 1)
+		free_point(&point);*/
 	return (SUCCESS);
-}*/
+}
 
-/*
-** Initilise une grille remplie de '.' en calculant la taille minimale possible basée sur le nbre de tetri dans la struct.
-** Si le backtracking ne peut être résoud avec cette taille, l'agrandit jusqu'à résolution.
-*/
-
-/*t_grid	*solve_grid(t_tetri *tetri)
+t_grid		*solve_grid(t_tetri *tetri)
 {
 	t_grid	*grid;
 	int		size;
 	int		count;
-	int		ret;
-	int		x;
-	int		y;
+	t_point *point;
 
-	x = 0;
-	y = 0;
+	point = new_point(0, 0);
 	count = tetri_count(tetri);
 	size = right_grid(count * 4);
 	grid = init_grid(size);
-	while ((ret = backtracking(grid, tetri, x, y)) == FAILURE)
+	while (!(backtracking(grid, tetri, point)))
 	{
 		size++;
 		free_grid(grid);
 		grid = init_grid(size);
+		point = new_point(0, 0);
 	}
+	ft_memdel((void **)&point);
 	return (grid);
-}*/
+}

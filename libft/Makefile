@@ -6,7 +6,7 @@
 #    By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/08 12:31:47 by psentilh          #+#    #+#              #
-#    Updated: 2018/12/04 16:31:20 by psentilh         ###   ########.fr        #
+#    Updated: 2019/01/18 14:04:35 by psentilh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -99,8 +99,7 @@ OBJS= $(patsubst %.c,$(DIR_OBJS)%.o,$(SRCS))
 
 
 # Others
-HEADERS= -I libft.h
-
+HEADERS= -I .
 
 
 all: $(NAME)
