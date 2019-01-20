@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   backtracking.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pommedepin <pommedepin@student.42.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/16 16:52:23 by psentilh          #+#    #+#             */
-/*   Updated: 2019/01/18 19:50:30 by psentilh         ###   ########.fr       */
+/*   Updated: 2019/01/20 17:00:44 by pommedepin       ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
+#include <stdio.h>
 
 t_point		*new_pos(t_grid *grid, t_point *point)
 {
@@ -85,9 +86,23 @@ t_grid		*place_piece(t_tetri *tetri, t_grid *grid, t_point *point, char c)
 	return (grid);
 }
 
-// Verif la valeur de point.y a la fin pk c'est random et comment la changer
-// verif si j'arrive a utilise un seul t_point au lieu de 2 car peut-etre que c'est l'interaction des 2 qui nique out
-// verif si en creeant une liste chainee de chaque point cree qu je free a la fin ca regle tout
+void		ft_create_point(t_point *point)
+{
+	point = new_point(0, 0);
+}
+
+// Verif la valeur de point.y a la fin pk c'est random et comment la changer 
+// --> quand compile avec fsanitize et execute avec lldb run -d, dit que le pb vient 
+//encore du parsing et du fameux tmp[ret] = '\0'
+
+// verif si j'arrive a utilise un seul t_point au lieu de 2 car peut-etre que c'est 
+// l'interaction des 2 qui nique out --> impossible de garder les deux en déclarant 
+// point dans solve_grid car on s'appuit justement sur le fait que le backtracking 
+// se base sur un autre point pour le résoudre donc nécessaire.
+// --> Tentative en structure statique ? 
+
+// verif si en creeant une liste chainee de chaque point cree qu je free a la fin 
+// ca regle tout ?
 int			backtracking(t_grid *grid, t_tetri *tetri, t_point *np)
 {
 	int		index;
@@ -114,6 +129,11 @@ int			backtracking(t_grid *grid, t_tetri *tetri, t_point *np)
 		return (backtracking(grid, &tetri[index], new_pos(grid, np)));
 	}
 	grid = place_piece(&tetri[index], grid, np, tetri[index].alpha);
+	/*if (!point)
+	{
+		printf("ici\n");
+		ft_create_point(point);
+	}*/
 	if ((backtracking(grid, &tetri[index + 1], point)) == FAILURE)
 	{
 		ft_memdel((void **)&point);
