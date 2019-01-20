@@ -6,14 +6,14 @@
 /*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/04 11:53:12 by psentilh          #+#    #+#             */
-/*   Updated: 2019/01/18 16:53:40 by psentilh         ###   ########.fr       */
+/*   Updated: 2019/01/20 18:35:06 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
 /*
-** fonction fait 27 lignes
+** fonction fait 30 lignes
 */
 
 int		main(int ac, char **av)
@@ -31,8 +31,12 @@ int		main(int ac, char **av)
 		ft_putstr("usage : ./fillit file_descriptor\n");
 		return (-1);
 	}
-	fd = open(av[1], O_RDONLY);
-	if (!(tetri = put_in_struct(tetri, fd, index)))
+	if ((fd = open(av[1], O_RDONLY)) == -1)
+	{
+		ft_putstr("error\n");
+		return (-1);
+	}
+	if ((!(tetri = put_in_struct(tetri, fd, index))))
 	{
 		close(fd);
 		ft_putstr("error\n");

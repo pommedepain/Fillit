@@ -6,7 +6,7 @@
 /*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/17 19:24:11 by psentilh          #+#    #+#             */
-/*   Updated: 2019/01/18 19:40:01 by psentilh         ###   ########.fr       */
+/*   Updated: 2019/01/18 18:55:44 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,5 @@ void				tetri_rm(t_grid *grid, t_tetri *tetri);
 t_point				*new_point(int x, int y);
 void				free_all(t_tetri *test);
 void				ft_end_of_prog(t_grid *grid, t_tetri *tetri);
-void				free_point(t_point **point);	
-
+void				free_point(t_point **point);
 #endif
