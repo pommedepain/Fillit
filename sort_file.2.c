@@ -6,7 +6,7 @@
 /*   By: cfauvell <cfauvell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/21 21:00:54 by psentilh          #+#    #+#             */
-/*   Updated: 2019/01/14 17:20:06 by cfauvell         ###   ########.fr       */
+/*   Updated: 2019/01/21 17:50:26 by cfauvell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,24 +98,28 @@ char	**tab_filling(char *tab)
 ** Handle particular tetriminos who don't work normally
 */
 
-int		sort_particular_case(char *tmp2, t_tetri *test, int i)
+int		sort_particular_case(char *tmp2, t_tetri *tetri, int i)
 {
 	if (ft_strstr(tmp2, "#..###") && hash_count(tmp2) == 4)
-		test[i].piece = particular_t1();
+		tetri[i].piece = particular_t1();
 	else if (ft_strstr(tmp2, "#.###") && hash_count(tmp2) == 4)
-		test[i].piece = particular_l();
+		tetri[i].piece = particular_l();
 	else if (ft_strstr(tmp2, "#..##...#") && hash_count(tmp2) == 4)
-		test[i].piece = particular_t2();
+		tetri[i].piece = particular_t2();
 	else if (ft_strstr(tmp2, "#...#..##") && hash_count(tmp2) == 4)
-		test[i].piece = particular_l2();
+		tetri[i].piece = particular_l2();
 	else if (ft_strstr(tmp2, "##.##") && hash_count(tmp2) == 4)
-		test[i].piece = particular_s();
+		tetri[i].piece = particular_s();
 	else if (ft_strstr(tmp2, "#..##..#") && hash_count(tmp2) == 4)
-		test[i].piece = particular_s2();
+		tetri[i].piece = particular_s2();
 	else
 		return (0);
 	return (1);
 }
+
+/*
+** Hashtag counter for sort_particular_case
+*/
 
 int		hash_count(char *tab)
 {

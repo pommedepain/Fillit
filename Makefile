@@ -6,7 +6,7 @@
 #    By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/11/28 13:07:43 by psentilh          #+#    #+#              #
-#    Updated: 2019/01/20 18:16:25 by psentilh         ###   ########.fr        #
+#    Updated: 2019/01/22 14:47:59 by psentilh         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,6 +25,7 @@ SRCS =	main.c\
 		sort_file.3.c\
 		backtracking.c\
 		extra_functions.c\
+		extra_functions.2.c\
 		grid.c\
 
 OBJS= $(patsubst %.c,$(DIR_OBJS)%.o,$(SRCS))

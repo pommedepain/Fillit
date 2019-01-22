@@ -6,7 +6,7 @@
 /*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 16:49:49 by cfauvell          #+#    #+#             */
-/*   Updated: 2019/01/18 16:28:25 by psentilh         ###   ########.fr       */
+/*   Updated: 2019/01/22 13:04:52 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,19 +58,31 @@ int		check_tetri(char **tab)
 	return (y == 4 && hash == 4 && count >= 6);
 }
 
-// Fait 27 lignes
-void	min_max(t_tetri *tetri, t_point *min, t_point *max, int index)
+char	*create_string(char *str, t_tetri *tetri, int index)
 {
-	int		i;
-	char	*str;
+	int i;
 
-	str = ft_strnew(21);
 	i = 0;
+	str = ft_strnew(21);
 	while (i < 4)
 	{
 		str = ft_strcat(str, tetri[index].piece[i++]);
 		str = ft_strcat(str, "\n");
 	}
+	return (str);
+}
+
+/*
+** Computes the height and width of a tetri
+*/
+
+void	min_max(t_tetri *tetri, t_point *min, t_point *max, int index)
+{
+	int		i;
+	char	*str;
+
+	str = NULL;
+	str = create_string(str, tetri, index);
 	i = 0;
 	while (i < 20)
 	{
@@ -89,6 +101,10 @@ void	min_max(t_tetri *tetri, t_point *min, t_point *max, int index)
 	}
 	free(str);
 }
+
+/*
+** Informs the height and width of all the tetris in the structure
+*/
 
 t_tetri	*tetri_h_w(t_tetri *tetri)
 {
@@ -109,14 +125,4 @@ t_tetri	*tetri_h_w(t_tetri *tetri)
 		index--;
 	}
 	return (tetri);
-}
-
-char	**particular_l2(void)
-{
-	char *clear;
-	char **final;
-
-	clear = ".#...#..##......";
-	final = tab_filling(clear);
-	return (final);
 }

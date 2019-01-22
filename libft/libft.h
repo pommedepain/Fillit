@@ -6,7 +6,7 @@
 /*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/08 09:27:54 by psentilh          #+#    #+#             */
-/*   Updated: 2019/01/18 14:03:56 by psentilh         ###   ########.fr       */
+/*   Updated: 2019/01/21 14:23:13 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
+
+# define BUFF_SIZE 600
 
 void			*ft_memset(void *str, int c, size_t len);
 void			ft_bzero(void *s, size_t n);
@@ -92,7 +94,6 @@ void			ft_lstadd(t_list **alist, t_list *new);
 void			ft_lstiter(t_list *list, void (*f)(t_list *elem));
 t_list			*ft_lstmap(t_list *list, t_list *(*f)(t_list *elem));
 
-# define BUFF_SIZE 600
 int				get_next_line(const int fd, char **line);
 void			ft_print_words_tables(char **tab);
 void			ft_tabdel(char **as);

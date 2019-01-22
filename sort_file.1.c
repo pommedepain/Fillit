@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   sort_file.1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: cfauvell <cfauvell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/10 16:52:34 by cfauvell          #+#    #+#             */
-/*   Updated: 2019/01/20 18:35:02 by psentilh         ###   ########.fr       */
+/*   Updated: 2019/01/22 12:56:13 by cfauvell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
-// 1 fonction en trop à mettre dans extra_founctions
 
 /*
 ** Get the file to a string
@@ -24,6 +23,11 @@ char	*read_all_file(int fd, char *buff)
 	int		ret;
 
 	ret = 0;
+	if (fd == -1)
+	{
+		free(buff);
+		return (NULL);
+	}
 	ret = read(fd, tmp, BUFF_SIZE);
 	tmp[ret] = '\0';
 	tmp2 = buff;
@@ -45,7 +49,7 @@ char	*read_all_file(int fd, char *buff)
 ** put it in a char array
 */
 
-int		sort_tetri(char *str, t_tetri *test, int i)
+int		sort_tetri(char *str, t_tetri *tetri, int i)
 {
 	char	*tmp;
 	char	*tmp2;
@@ -56,62 +60,69 @@ int		sort_tetri(char *str, t_tetri *test, int i)
 		return (0);
 	tmp2 = ft_strdup(str);
 	tmp2 = clear_string1(tmp2);
-	if (sort_particular_case(tmp2, test, i) == 1)
+	if (sort_particular_case(tmp2, tetri, i) == 1)
 	{
 		ft_memmove(str, tmp + 2, ft_strlen(tmp + 2));
 		free(tmp2);
 		return (1);
 	}
 	tmp2 = clear_string2(tmp2);
-	if (!(test[i].piece = tab_filling(tmp2)))
+	if (!(tetri[i].piece = tab_filling(tmp2)))
 		return (0);
 	ft_memmove(str, tmp + 2, ft_strlen(tmp + 2));
 	free(tmp2);
 	return (1);
 }
 
-int		sort_tetri1(char *str, t_tetri *test, int index)
+/*
+** Fill the struct if there is just one tetriminos
+*/
+
+t_tetri	*for_one_tetri(t_tetri *tetri, char *final, int index)
 {
-	str = clear_string1(str);
-	if (sort_particular_case(str, test, index) == 1)
+	if (!(sort_tetri1(final, tetri, index)))
 	{
-		free(str);
-		return (1);
+		free_tetri(tetri);
+		return (NULL);
 	}
-	str = clear_string2(str);
-	if (!(test[0].piece = tab_filling(str)))
-		return (-1);
-	free(str);
-	return (1);
+	if (!(check_tetri(tetri[0].piece)))
+	{
+		tetri[1].piece = NULL;
+		free_tetri(tetri);
+		return (NULL);
+	}
+	tetri[0].index = 1;
+	tetri[0].alpha = 'A';
+	tetri[1].piece = NULL;
+	return (tetri);
 }
 
-t_tetri	*for_one_tetri(t_tetri *test, char *final, int index)
-{
-	if (!(sort_tetri1(final, test, index)))
-		return (NULL);
-	if (!(check_tetri(test[0].piece)))
-	{
-		free_all(test);
-		return (NULL);
-	}
-	test[0].index = 1;
-	test[0].alpha = 'A';
-	test[1].piece = NULL;
-	return (test);
-}
+/*
+** Fill the struct if there is multiple tetriminos
+*/
 
-t_tetri	*for_multi_tetri(t_tetri *test, char *final, int index)
+t_tetri	*for_multi_tetri(t_tetri *tetri, char *final, int index)
 {
-	if (!(sort_tetri(final, test, index)))
-		return (NULL);
-	if (!(check_tetri(test[index].piece)))
+	if (sort_tetri(final, tetri, index) == 0)
 	{
-		free_all(test);
+		if (index == 0)
+			free(tetri);
+		else
+		{
+			tetri[index].piece = NULL;
+			free_tetri(tetri);
+		}
 		return (NULL);
 	}
-	test[index].index = index + 1;
-	test[index].alpha = 65 + index;
-	return (test);
+	if (!(check_tetri(tetri[index].piece)))
+	{
+		tetri[index + 1].piece = NULL;
+		free_tetri(tetri);
+		return (NULL);
+	}
+	tetri[index].index = index + 1;
+	tetri[index].alpha = 65 + index;
+	return (tetri);
 }
 
 /*
@@ -119,7 +130,7 @@ t_tetri	*for_multi_tetri(t_tetri *test, char *final, int index)
 ** (if valid)
 */
 
-t_tetri	*put_in_struct(t_tetri *test, int fd, int index)
+t_tetri	*put_in_struct(t_tetri *tetri, int fd, int index)
 {
 	static char	*final;
 	int			len;
@@ -129,19 +140,19 @@ t_tetri	*put_in_struct(t_tetri *test, int fd, int index)
 	if (!(final = read_all_file(fd, final)))
 		return (NULL);
 	len = (ft_strlen(final) + 1) / 21;
-	if (!(test = (t_tetri *)malloc(sizeof(t_tetri) * (len + 1))))
+	if (!(tetri = (t_tetri *)malloc(sizeof(t_tetri) * (len + 1))))
 		return (NULL);
 	if (len == 1)
 	{
-		test = for_one_tetri(test, final, index);
-		return (test);
+		tetri = for_one_tetri(tetri, final, index);
+		return (tetri);
 	}
 	while (len--)
 	{
-		if (!(test = for_multi_tetri(test, final, index)))
+		if (!(tetri = for_multi_tetri(tetri, final, index)))
 			return (NULL);
 		index++;
 	}
-	test[index].piece = NULL;
-	return (test);
+	tetri[index].piece = NULL;
+	return (tetri);
 }

@@ -6,15 +6,14 @@
 /*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/07 14:20:29 by psentilh          #+#    #+#             */
-/*   Updated: 2019/01/18 18:55:24 by psentilh         ###   ########.fr       */
+/*   Updated: 2019/01/22 13:05:47 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
 /*
-** Initialise un nouveau pointeur sur coordonnées.
-** Utilisé dans min_max et choose_place.
+** Initialize a pointer with coordinates to move on the grid.
 */
 
 t_point		*new_point(int x, int y)
@@ -28,6 +27,10 @@ t_point		*new_point(int x, int y)
 	point->y = y;
 	return (point);
 }
+
+/*
+** Erase a tetri already placed on the grid.
+*/
 
 void		tetri_rm(t_grid *grid, t_tetri *tetri)
 {
@@ -50,39 +53,60 @@ void		tetri_rm(t_grid *grid, t_tetri *tetri)
 	}
 }
 
-void		free_all(t_tetri *test)
+/*
+** Free the entire tetri structure
+*/
+
+void		free_tetri(t_tetri *tetri)
 {
 	int i;
 	int y;
 
 	i = 0;
-	while (test[i].piece)
+	while (tetri[i].piece)
 	{
 		y = 0;
-		while (test[i].piece[y])
+		while (tetri[i].piece[y])
 		{
-			free(test[i].piece[y]);
+			free(tetri[i].piece[y]);
 			y++;
 		}
-		free(test[i].piece);
+		free(tetri[i].piece);
 		i++;
 	}
-	free(test);
+	free(tetri);
 }
 
-void		ft_end_of_prog(t_grid *grid, t_tetri *tetri)
-{
-	print_grid(grid);
-	free_grid(grid);
-	free_all(tetri);
-}
+/*
+** Divide a string into a char array (works for one tetriminos)
+*/
 
-void		free_point(t_point **point)
+int			sort_tetri1(char *str, t_tetri *test, int index)
 {
-	if (*point)
+	if (!(str = clear_string1(str)))
+		free(str);
+	if (sort_particular_case(str, test, index) == 1)
 	{
-		free(*point);
-		//free(&point);
-		*point = NULL;
+		free(str);
+		return (1);
 	}
+	str = clear_string2(str);
+	if (!(test[0].piece = tab_filling(str)))
+		return (-1);
+	free(str);
+	return (1);
+}
+
+/*
+** the 6th particular case (see sort_file.3.c)
+*/
+
+char		**particular_l2(void)
+{
+	char *clear;
+	char **final;
+
+	clear = ".#...#..##......";
+	final = tab_filling(clear);
+	return (final);
 }

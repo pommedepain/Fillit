@@ -6,7 +6,7 @@
 /*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/12/11 13:11:00 by psentilh          #+#    #+#             */
-/*   Updated: 2019/01/17 19:21:05 by psentilh         ###   ########.fr       */
+/*   Updated: 2019/01/21 14:31:57 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ void		print_grid(t_grid *grid)
 }
 
 /*
-** Initilize a grid
+** Initilize a grid at the minimum size possible based on the
+** number of tetris in the file descriptor.
 */
 
 t_grid		*init_grid(int size)
@@ -62,7 +63,7 @@ t_grid		*init_grid(int size)
 }
 
 /*
-** Count the number of tetris
+** Cumputes the number of tetris
 */
 
 int			tetri_count(t_tetri *tetri)
@@ -74,6 +75,10 @@ int			tetri_count(t_tetri *tetri)
 		i++;
 	return (i);
 }
+
+/*
+** Computes the minimum size possible of the grid.
+*/
 
 int			right_grid(int nb)
 {

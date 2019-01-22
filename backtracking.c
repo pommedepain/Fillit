@@ -6,11 +6,15 @@
 /*   By: psentilh <psentilh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/16 16:52:23 by psentilh          #+#    #+#             */
-/*   Updated: 2019/01/20 18:16:57 by psentilh         ###   ########.fr       */
+/*   Updated: 2019/01/22 14:46:29 by psentilh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
+
+/*
+** Looks for a new set of coordinates to pass on to choose_place_grid
+*/
 
 t_point		*new_pos(t_grid *grid, t_point *point)
 {
@@ -28,6 +32,11 @@ t_point		*new_pos(t_grid *grid, t_point *point)
 	}
 	return (point);
 }
+
+/*
+** Checks that the coordinates that it receives are valid to place
+** the whole tetri
+*/
 
 t_point		*choose_place_grid(t_tetri *tetri, t_grid *grid, t_point *point)
 {
@@ -54,6 +63,10 @@ t_point		*choose_place_grid(t_tetri *tetri, t_grid *grid, t_point *point)
 	point = NULL;
 	return (point);
 }
+
+/*
+** Places a tetri on the grid at the coordinates that it receives
+*/
 
 t_grid		*place_piece(t_tetri *tetri, t_grid *grid, t_point *point, char c)
 {
@@ -84,62 +97,59 @@ t_grid		*place_piece(t_tetri *tetri, t_grid *grid, t_point *point, char c)
 	return (grid);
 }
 
-int			backtracking(t_grid *grid, t_tetri *tetri, t_point *np)
+int			backtracking(t_grid *grid, t_tetri *tetri, t_point *np, int index)
 {
-	int		index;
-	t_point *point;
-	static int	count = 0;
+	t_point		*point;
 
-	index = 0;
 	point = new_point(0, 0);
-	if (tetri[index].piece == NULL)
-	{
-		ft_memdel((void **)&np);
-		ft_memdel((void **)&point);
-		return (SUCCESS);
-	}
-	if (np == NULL)
+	if ((index = stop_condition(&tetri[index], np)) != -1)
 	{
 		ft_memdel((void **)&point);
-		return (FAILURE);
+		return (index == SUCCESS);
 	}
+	index = 0;
 	if ((choose_place_grid(&tetri[index], grid, np)) == NULL)
 	{
 		ft_memdel((void **)&point);
-		return (backtracking(grid, &tetri[index], new_pos(grid, np)));
+		return (backtracking(grid, &tetri[index], new_pos(grid, np), index));
 	}
 	grid = place_piece(&tetri[index], grid, np, tetri[index].alpha);
-	if ((backtracking(grid, &tetri[index + 1], point)) == FAILURE)
+	if ((backtracking(grid, &tetri[index + 1], point, index)) == FAILURE)
 	{
 		ft_memdel((void **)&point);
 		tetri_rm(grid, &tetri[index]);
-		return (backtracking(grid, &tetri[index], new_pos(grid, np)));
+		return (backtracking(grid, &tetri[index], new_pos(grid, np), index));
 	}
-	count++;
-	if (count != 1)
-		free_point(&point);
+	free_point(point);
 	return (SUCCESS);
 }
+
+/*
+** Main of the backtracking that's in charge of intializing and
+** extending the grid if necessary.
+*/
 
 t_grid		*solve_grid(t_tetri *tetri)
 {
 	t_grid	*grid;
 	int		size;
 	int		count;
-	t_point *point;
+	t_point	*np;
+	int		index;
 
-	point = new_point(0, 0);
+	index = 0;
+	np = new_point(0, 0);
 	count = tetri_count(tetri);
 	size = right_grid(count * 4);
 	grid = init_grid(size);
-	while (!(backtracking(grid, tetri, point)))
+	while (!(backtracking(grid, tetri, np, index)))
 	{
-		ft_memdel((void **)&point);
+		ft_memdel((void **)&np);
 		size++;
 		free_grid(grid);
 		grid = init_grid(size);
-		point = new_point(0, 0);
+		np = new_point(0, 0);
 	}
-	ft_memdel((void **)&point);
+	ft_memdel((void **)&np);
 	return (grid);
 }
