@@ -28,7 +28,7 @@ This programm will take a file as parameter, which contains a list of Tetriminos
 <li>If a file is invalid the programm will return "error". If no file is provided, it will display its usage.</li>
 </ul>
 
-# How to us it ?
+# How to use it ?
 
 <ul>
 <li>Run: make</li>
