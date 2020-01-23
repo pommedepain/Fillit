@@ -33,9 +33,11 @@ This programm will take a file as parameter, which contains a list of Tetriminos
 <ul>
 <li>Run: make</li>
 
-<li>Run: ./fillit ./examples/ok/TEST_FILE_NAME
+<li>Run: ./fillit ./examples/ok/TEST_FILE_NAME</li>
+
 OR
-Run: ./fillit ./examples/nok/TEST_FILE_NAME (if you want to see the error handling)</li>
+
+<li>Run: ./fillit ./examples/nok/TEST_FILE_NAME (if you want to see the error handling)</li>
 </ul>
 
 ![Grade](./grade_fillit.png?raw=true "Grade")
