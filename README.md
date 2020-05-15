@@ -4,7 +4,7 @@
 
 This programm will take a file as parameter, which contains a list of Tetriminos, and arrange them in order to create the smallest square possible.
 
-(Group project carried out with @Clemzerdu75)
+(Group project carried out with [Clément Fauvelle](https://github.com/Clemzerdu75) )
 
 ![GIF](./fillit.gif?raw=true "GIF")
 
