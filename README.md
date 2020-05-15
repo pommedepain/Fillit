@@ -36,5 +36,3 @@ This programm will take a file as parameter, which contains a list of Tetriminos
 OR
 <li>Run: ./fillit ./examples/nok/TEST_FILE_NAME (if you want to see the error handling)</li>
 </ul>
-
-![Grade](./grade_fillit.png?raw=true "Grade")
